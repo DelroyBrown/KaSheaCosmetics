@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ka'Shea Cosmetics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.css" integrity="sha512-ywmPbuxGS4cJ7GxwCX+bCJweeext047ZYU2HP52WWKbpJnF4/Zzfr2Bo19J4CWPXZmleVusQ9d//RB5bq0RP7w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/lightgallery-bundle.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/all.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/animate.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/slick.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/mapbox-gl.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/stylesheet.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/theme-black.css' %}">
+</head>
+<body>
+
+    {% block content %}
+    {% endblock %}
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{% static 'javascript/bootstrap.bundle.js' %}"></script>
+    <script src="{% static 'javascript/clipboard.min.js' %}"></script>
+    <script src="{% static 'javascript/lazyload.min.js' %}"></script>
+    <script src="{% static 'javascript/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'javascript/lightgallery.min.js' %}"></script>
+    <script src="{% static 'javascript/lg-zoom.min.js' %}"></script>
+    <script src="{% static 'javascript/lg-thumbnail.min.js' %}"></script>
+    <script src="{% static 'javascript/lg-video.min.js' %}"></script>
+    <script src="{% static 'javascript/lg-vimeo-thumbnail.min.js' %}"></script>
+    <script src="{% static 'javascript/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'javascript/slick.min.js' %}"></script>
+    <script src="{% static 'javascript/gsap.min.js' %}"></script>
+    <script src="{% static 'javascript/ScrollToPlugin.min.js' %}"></script>
+    <script src="{% static 'javascript/ScrollTrigger.min.js' %}"></script>
+    <script src="{% static 'javascript/mapbox-gl.js' %}"></script>
+    <script src="{% static 'javascript/theme.min.js' %}"></script>
+</body>
+</html>
