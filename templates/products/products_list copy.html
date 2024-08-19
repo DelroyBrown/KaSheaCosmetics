@@ -1,0 +1,17 @@
+<!-- templates\products\products_list.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Product List</h1>
+<div class="product-grid">
+    {% for product in products %}
+    <div class="product-card">
+        <a href="{% url 'KaSheaCosmetics_products:product_detail' product.id %}">
+            <img src="{{ product.image_1.url }}" alt="{{ product.name }}">
+            <h3>{{ product.name }}</h3>
+        </a>
+        <p>{{ product.price }} £</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

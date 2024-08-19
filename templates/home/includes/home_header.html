@@ -1,0 +1,82 @@
+{% load static %}
+<header id="header"
+    class="header header-14 header-sticky header-transparent header-sticky-smart disable-transition-all position-absolute start-0 end-0 z-index-5">
+    <div class="sticky-area main-header unset-mode-when-sticky" data-bs-theme="light">
+        <div class="container-wide container">
+            <div class="nav navbar px-0 d-block px-xxl-12 py-7 py-xl-30px sticky-py-xl-8">
+                <div class="d-flex align-items-center flex-nowrap">
+                    <div class="w-50 d-flex align-items-center justify-content-start">
+                        <a href="./" class="navbar-brand has-sticky-logo p-0">
+                            <img class="light-mode-img"
+                            src="{% static 'images/logo_black.svg' %}" width="250" height="55"
+                                alt="Glowing - Bootstrap 5 HTML Templates">
+                            <img class="dark-mode-img" src="{% static 'images/logo_black.svg' %}" width="250" height="55"
+                                alt="Glowing - Bootstrap 5 HTML Templates">
+                            <img class="sticky-logo sticky-logo-light" src="{% static 'images/logo_black.svg' %}" width="250"
+                                height="55" alt="Glowing - Bootstrap 5 HTML Templates">
+                            <img class="sticky-logo sticky-logo-dark" src="{% static 'images/logo_black.svg' %}"
+                                width="250" height="55" alt="Glowing - Bootstrap 5 HTML Templates">
+                        </a>
+                    </div>
+                    <div class="w-50 d-flex align-items-center justify-content-end">
+                        <div class="color-modes position-relative px-5">
+                            <a class="bd-theme btn btn-link nav-link dropdown-toggle d-inline-flex align-items-center justify-content-center text-primary p-0 position-relative rounded-circle"
+                                href="#" aria-expanded="true" data-bs-toggle="dropdown" data-bs-display="static"
+                                aria-label="Toggle theme (light)">
+                                <svg class="bi my-1 theme-icon-active">
+                                    <use href="#sun-fill"></use>
+                                </svg>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end fs-14px" data-bs-popper="static">
+                                <li>
+                                    <button type="button" class="dropdown-item d-flex align-items-center active"
+                                        data-bs-theme-value="light" aria-pressed="true">
+                                        <svg class="bi me-4 opacity-50 theme-icon">
+                                            <use href="#sun-fill"></use>
+                                        </svg>
+                                        Light
+                                        <svg class="bi ms-auto d-none">
+                                            <use href="#check2"></use>
+                                        </svg>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item d-flex align-items-center"
+                                        data-bs-theme-value="dark" aria-pressed="false">
+                                        <svg class="bi me-4 opacity-50 theme-icon">
+                                            <use href="#moon-stars-fill"></use>
+                                        </svg>
+                                        Dark
+                                        <svg class="bi ms-auto d-none">
+                                            <use href="#check2"></use>
+                                        </svg>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item d-flex align-items-center"
+                                        data-bs-theme-value="auto" aria-pressed="false">
+                                        <svg class="bi me-4 opacity-50 theme-icon">
+                                            <use href="#circle-half"></use>
+                                        </svg>
+                                        Auto
+                                        <svg class="bi ms-auto d-none">
+                                            <use href="#check2"></use>
+                                        </svg>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class>
+                            <button
+                                class="navbar-toggler align-self-center  border-0 shadow-none px-0 canvas-toggle map[classWrapper:]"
+                                type="button" data-bs-toggle="offcanvas" data-bs-target="#offCanvasNavBar"
+                                aria-controls="offCanvasNavBar" aria-expanded="false" aria-label="Toggle Navigation">
+                                <span class="fs-24 toggle-icon"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
