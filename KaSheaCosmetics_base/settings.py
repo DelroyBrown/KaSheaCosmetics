@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     "KaSheaCosmetics_base",
     "KaSheaCosmetics_home",
     "KaSheaCosmetics_products",
+    "KaSheaCosmetics_cart",
 ]
 
 MIDDLEWARE = [

@@ -10,6 +10,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("KaSheaCosmetics_home.urls")),
     path("", include("KaSheaCosmetics_products.urls")),
+    path("", include("KaSheaCosmetics_cart.urls")),
 ]
 
 if settings.DEBUG:
