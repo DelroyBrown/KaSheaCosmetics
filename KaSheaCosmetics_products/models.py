@@ -19,10 +19,27 @@ class ProductCategory(models.Model):
         return self.category_name
 
 
+class ProductSize(models.Model):
+    size_name = models.CharField(blank=False, null=False, max_length=20, default="")
+    added_percentage = models.IntegerField(blank=False, null=False, default="")
+
+    def __srt__(self):
+        return self.size_name
+
+
+class Ingredients(models.Model):
+    ingredient_name = models.CharField(
+        max_length=100, blank=True, null=True, default=""
+    )
+
+    def __str__(self):
+        return self.ingredient_name
+
+
 class Product(models.Model):
     name = models.CharField(max_length=200, blank=False, null=False, default="")
     description = models.TextField(blank=False, null=False, default="")
-    size = models.CharField(max_length=20, blank=True, null=True, default='')
+    size = models.CharField(max_length=20, blank=True, null=True, default="")
     image_1 = models.ImageField(upload_to="product-images", blank=False, null=False)
     image_2 = models.ImageField(upload_to="product-images", blank=True, null=True)
     image_3 = models.ImageField(upload_to="product-images", blank=True, null=True)
@@ -30,9 +47,14 @@ class Product(models.Model):
     category = models.ForeignKey(
         ProductCategory, blank=False, null=False, default="", on_delete=models.CASCADE
     )
+    product_sizes = models.ManyToManyField(ProductSize, blank=False)
+    stock = models.IntegerField(blank=False, null=False)
     shipping_option = models.ForeignKey(
         ShippingOption, blank=False, null=False, default="", on_delete=models.CASCADE
     )
+    product_details = models.TextField(blank=True, null=True, default="")
+    how_to_use = models.TextField(blank=True, null=True, default="")
+    ingredients = models.ManyToManyField(Ingredients, blank=True)
 
     def __str__(self):
         return self.name
