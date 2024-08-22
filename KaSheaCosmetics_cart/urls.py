@@ -7,7 +7,8 @@ from . import views
 app_name = "KaSheaCosmetics_cart"
 
 urlpatterns = [
-    path("shopping-cart/", views.shopping_cart, name=""),
+    path("shopping-cart/", views.shopping_cart, name="shopping-cart"),
+    path("add-to-cart/<int:product_id>/", views.add_to_cart, name="add-to-cart"),
 ]
 
 if settings.DEBUG:

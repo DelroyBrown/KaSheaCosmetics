@@ -18,29 +18,26 @@ def product_detail(request, product_id):
     )
 
 
-# Function to calculate price with discounts and size adjustment
 def calculate_discounted_price(product, quantity, size_percentage):
     base_price = product.price
 
     # Apply size adjustment (percentage increase or decrease)
-    size_adjustment = Decimal(size_percentage) / Decimal(
-        100
-    )  # size_percentage is already passed as a number
+    size_adjustment = Decimal(size_percentage) / Decimal(100)
 
     # Adjust base price by the size percentage
     adjusted_price = base_price * (Decimal(1) + size_adjustment)
 
-    # Apply quantity-based discount (only to adjusted price)
+    # Apply quantity-based discount (if any)
     if quantity == 2:
         discount = Decimal(0.15)  # 15% off for 2 items
     elif quantity == 3:
-        discount = Decimal(0.15)  
+        discount = Decimal(0.15)  # Same discount for 3 items (adjust as needed)
     elif quantity == 4:
-        discount = Decimal(0.15)  
+        discount = Decimal(0.15)  # Same discount for 4 items (adjust as needed)
     else:
-        discount = Decimal(0)  # No discount for 1 item
+        discount = Decimal(0)
 
-    # Calculate final discounted price for the given quantity
+    # Calculate the final price
     discounted_price = adjusted_price * quantity * (Decimal(1) - discount)
 
     return round(discounted_price, 2)
@@ -50,9 +47,7 @@ def calculate_discounted_price(product, quantity, size_percentage):
 def update_price(request):
     product_id = request.GET.get("product_id")
     quantity = int(request.GET.get("quantity", 1))
-    size_percentage = Decimal(
-        request.GET.get("size_percentage", 0)
-    )  # Get size percentage
+    size_percentage = Decimal(request.GET.get("size_percentage", 0))
 
     product = get_object_or_404(Product, id=product_id)
     discounted_price = calculate_discounted_price(product, quantity, size_percentage)
