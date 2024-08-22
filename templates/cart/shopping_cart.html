@@ -33,193 +33,69 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% if cart_items %}
+                        {% for item in cart_items %}
                         <tr class="position-relative">
                             <th scope="row" class="pe-5 ps-8 py-7 shop-product">
                                 <div class="d-flex align-items-center">
-                                    <div class="form-check">
-                                        <input class="form-check-input rounded-0" type="checkbox" name="check-product"
-                                            value="checkbox">
-                                    </div>
                                     <div class="ms-6 me-7">
-                                        <img src="#" data-src="../assets/images/products/product-03-75x100.jpg"
-                                            class="lazy-image" width="75" height="100"
-                                            alt="Natural Coconut Cleansing Oil">
+                                        <img src="{{ item.image_url }}" data-src="{{ item.image_url }}"
+                                            class="lazy-image" width="75" alt="{{ item.product_name }}">
                                     </div>
                                     <div class>
-                                        <p class="fw-500 mb-1 text-body-emphasis">Natural Coconut Cleansing Oil</p>
+                                        <p class="fw-500 mb-1 text-body-emphasis">{{ item.product_name }}</p>
+                                        <p class="fw-500 mb-1 text-body-emphasis">
+                                            <strong>
+                                                Size:
+
+                                            </strong>
+                                            {{ item.size }}
+                                        </p>
+                                        <p class="fw-500 mb-1 text-body-emphasis">
+                                            <strong>
+                                                Quantity:
+                                            </strong>
+                                            {{ item.quantity }}
+                                        </p>
                                         <p class="card-text">
-                                            <span class="fs-13px fw-500 text-decoration-line-through pe-3">$39.00</span>
-                                            <span class="fs-15px fw-bold text-body-emphasis">$29.00</span>
+                                            <span class="fs-15px fw-bold text-body-emphasis"
+                                                id="item-price-{{ item.product_id }}">
+                                                {{ item.price }}
+                                            </span>
                                         </p>
                                     </div>
                                 </div>
                             </th>
                             <td class="align-middle">
                                 <div class="input-group position-relative shop-quantity">
-                                    <a href="#" class="shop-down position-absolute z-index-2"><i
-                                            class="far fa-minus"></i></a>
+                                    <a href="#" class="shop-down position-absolute z-index-2">
+                                        <i class="far fa-minus"></i>
+                                    </a>
                                     <input name="number[]" type="number"
+                                        data-product-key="{{ item.product_id|default:"" }}"
                                         class="form-control form-control-sm px-10 py-4 fs-6 text-center border-0"
-                                        value="1" required>
-                                    <a href="#" class="shop-up position-absolute z-index-2"><i class="far fa-plus"></i>
+                                        value="{{ item.quantity }}" required>
+
+
+
+                                    <a href="#" class="shop-up position-absolute z-index-2">
+                                        <i class="far fa-plus"></i>
                                     </a>
                                 </div>
                             </td>
                             <td class="align-middle">
-                                <p class="mb-0 text-body-emphasis fw-bold mr-xl-11">$48.00</p>
+                                <p class="mb-0 text-body-emphasis fw-bold mr-xl-11">£{{ item.price }}</p>
                             </td>
                             <td class="align-middle text-end pe-8">
-                                <a href="#" class="d-block text-secondary">
-                                    <i class="fa fa-times"></i>
-                                </a>
+                                <a href="#" class="d-block text-secondary"><i class="fa fa-times"></i></a>
                             </td>
                         </tr>
-                        <tr class="position-relative">
-                            <th scope="row" class="pe-5 ps-8 py-7 shop-product">
-                                <div class="d-flex align-items-center">
-                                    <div class="form-check">
-                                        <input class="form-check-input rounded-0" type="checkbox" name="check-product"
-                                            value="checkbox">
-                                    </div>
-                                    <div class="ms-6 me-7">
-                                        <img src="#" data-src="../assets/images/products/product-06-75x100.jpg"
-                                            class="lazy-image" width="75" height="100"
-                                            alt="Natural Coconut Cleansing Oil">
-                                    </div>
-                                    <div class>
-                                        <p class="fw-500 mb-1 text-body-emphasis">Super Pure</p>
-                                        <p class="card-text">
-                                            <span class="fs-13px fw-500 text-decoration-line-through pe-3">$39.00</span>
-                                            <span class="fs-15px fw-bold text-body-emphasis">$29.00</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </th>
-                            <td class="align-middle">
-                                <div class="input-group position-relative shop-quantity">
-                                    <a href="#" class="shop-down position-absolute z-index-2"><i
-                                            class="far fa-minus"></i></a>
-                                    <input name="number[]" type="number"
-                                        class="form-control form-control-sm px-10 py-4 fs-6 text-center border-0"
-                                        value="1" required>
-                                    <a href="#" class="shop-up position-absolute z-index-2"><i class="far fa-plus"></i>
-                                    </a>
-                                </div>
-                            </td>
-                            <td class="align-middle">
-                                <p class="mb-0 text-body-emphasis fw-bold mr-xl-11">$48.00</p>
-                            </td>
-                            <td class="align-middle text-end pe-8">
-                                <a href="#" class="d-block text-secondary">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr class="position-relative opacity-50">
-                            <th scope="row" class="pe-5 ps-8 py-7 shop-product">
-                                <div class="d-flex align-items-center">
-                                    <div class="form-check">
-                                        <input class="form-check-input rounded-0" type="checkbox" name="check-product"
-                                            value="checkbox" disabled>
-                                    </div>
-                                    <div class="ms-6 me-7">
-                                        <img src="#" data-src="../assets/images/products/product-04-75x100.jpg"
-                                            class="lazy-image" width="75" height="100"
-                                            alt="Natural Coconut Cleansing Oil">
-                                    </div>
-                                    <div class>
-                                        <p class="fw-500 mb-1 text-body-emphasis">Cleansing Balm</p>
-                                        <p class="card-text">
-                                            <span class="fs-13px fw-500 text-decoration-line-through pe-3">$39.00</span>
-                                            <span class="fs-15px fw-bold text-body-emphasis">$29.00</span>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="position-absolute top-0 start-0">
-                                    <span
-                                        class="badge rounded-0 text-uppercase fs-14px px-5 py-4 product-stock ls-1 fw-semibold p-0">out
-                                        of stock</span>
-                                </div>
-                            </th>
-                            <td class="align-middle">
-                                <div class="input-group position-relative shop-quantity">
-                                    <a href="#" class="shop-down position-absolute z-index-2"><i
-                                            class="far fa-minus"></i></a>
-                                    <input name="number[]" type="number"
-                                        class="form-control form-control-sm px-10 py-4 fs-6 text-center border-0"
-                                        value="1" required disabled>
-                                    <a href="#" class="shop-up position-absolute z-index-2"><i class="far fa-plus"></i>
-                                    </a>
-                                </div>
-                            </td>
-                            <td class="align-middle">
-                                <p class="mb-0 text-body-emphasis fw-bold mr-xl-11">$48.00</p>
-                            </td>
-                            <td class="align-middle text-end pe-8">
-                                <a href="#" class="d-block text-secondary">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr class="position-relative">
-                            <th scope="row" class="pe-5 ps-8 py-7 shop-product">
-                                <div class="d-flex align-items-center">
-                                    <div class="form-check">
-                                        <input class="form-check-input rounded-0" type="checkbox" name="check-product"
-                                            value="checkbox">
-                                    </div>
-                                    <div class="ms-6 me-7">
-                                        <img src="#" data-src="../assets/images/products/product-09-75x100.jpg"
-                                            class="lazy-image" width="75" height="100"
-                                            alt="Natural Coconut Cleansing Oil">
-                                    </div>
-                                    <div class>
-                                        <p class="fw-500 mb-1 text-body-emphasis">Cleansing Balm</p>
-                                        <p class="card-text">
-                                            <span class="fs-13px fw-500 text-decoration-line-through pe-3">$39.00</span>
-                                            <span class="fs-15px fw-bold text-body-emphasis">$29.00</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </th>
-                            <td class="align-middle">
-                                <div class="input-group position-relative shop-quantity">
-                                    <a href="#" class="shop-down position-absolute z-index-2"><i
-                                            class="far fa-minus"></i></a>
-                                    <input name="number[]" type="number"
-                                        class="form-control form-control-sm px-10 py-4 fs-6 text-center border-0"
-                                        value="1" required>
-                                    <a href="#" class="shop-up position-absolute z-index-2"><i class="far fa-plus"></i>
-                                    </a>
-                                </div>
-                            </td>
-                            <td class="align-middle">
-                                <p class="mb-0 text-body-emphasis fw-bold mr-xl-11">$48.00</p>
-                            </td>
-                            <td class="align-middle text-end pe-8">
-                                <a href="#" class="d-block text-secondary">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="pt-5 pb-10 position-relative bg-body ps-0 left">
-                                <a href="../shop/shop-layout-v1.html" title="Countinue Shopping"
-                                    class="btn btn-outline-dark me-8 text-nowrap my-5">
-                                    Countinue Shopping
-                                </a>
-                                <button type="submit" value="Clear Shopping Cart"
-                                    class="btn btn-link p-0 border-0 border-bottom border-secondary text-decoration-none rounded-0 my-5 fw-semibold ">
-                                    <i class="fa fa-times me-3"></i>
-                                    Clear Shopping Cart
-                                </button>
-                            </td>
-                            <td colspan="3" class="text-end pt-5 pb-10 position-relative bg-body right pe-0">
-                                <button type="submit" value="Update Cart" class="btn btn-outline-dark my-5">Update
-                                    Cart
-                                </button>
-                            </td>
-                        </tr>
+                        {% endfor %}
+                        <p><strong>Total: £<span id="cart-total">{{ total }}</span></strong></p>
+
+                        {% endif %}
+
+
                     </tbody>
                 </table>
             </form>
@@ -1868,5 +1744,94 @@
         class="gtf-back-to-top text-decoration-none bg-body text-primary bg-primary-hover text-light-hover shadow square p-0 rounded-circle d-flex align-items-center justify-content-center"
         title="Back To Top" style="--square-size: 48px"><i class="fa-solid fa-arrow-up"></i></a>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    // CSRF token setup for AJAX requests
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // Initialize the CSRF token outside of the function
+    const csrftoken = getCookie('csrftoken');
+
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (!/^http:.*/.test(settings.url) && !/^https:.*/.test(settings.url)) {
+                // Only send the token to same-origin URLs
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+    $(document).ready(function () {
+        // Function to update the cart quantity
+        function updateCartQuantity(productKey, quantity) {
+            if (!productKey) {
+                console.log('Product key is missing');  // Check if product key is empty
+                return;
+            }
+
+            console.log("Product Key:", productKey);  // Debugging
+
+            $.ajax({
+                url: "{% url 'KaSheaCosmetics_cart:update-cart-quantity' %}",
+                method: "POST",
+                data: {
+                    'product_key': productKey,
+                    'quantity': quantity,
+                    'csrfmiddlewaretoken': csrftoken
+                },
+                success: function (response) {
+                    // Update the price and total on the page
+                    $('#item-price-' + productKey).text('£' + response.updated_price);
+                    $('#cart-total').text('£' + response.cart_total);
+                },
+                error: function (xhr, status, error) {
+                    console.log("Error: ", error);
+                }
+            });
+        }
+
+        // Use event delegation to avoid multiple event bindings
+        $(document).on('click', '.shop-up', function (e) {
+            e.preventDefault();
+
+            var inputField = $(this).siblings('input');  // Get the input field
+            var productKey = inputField.attr('data-product-key');  // Fetch the product key
+            var currentQuantity = parseInt(inputField.val());  // Get current quantity
+            var newQuantity = currentQuantity + 1;  // Increment by 1
+
+            inputField.val(newQuantity);  // Update the input value in the UI
+            updateCartQuantity(productKey, newQuantity);  // Send the AJAX request with the new quantity
+        });
+
+        $(document).on('click', '.shop-down', function (e) {
+            e.preventDefault();
+
+            var inputField = $(this).siblings('input');  // Get the input field
+            var productKey = inputField.attr('data-product-key');  // Fetch the product key
+            var currentQuantity = parseInt(inputField.val());  // Get current quantity
+            var newQuantity = currentQuantity - 1;  // Decrease by 1
+
+            if (newQuantity > 0) {  // Prevent negative or zero quantities
+                inputField.val(newQuantity);  // Update the input value in the UI
+                updateCartQuantity(productKey, newQuantity);  // Send the AJAX request with the new quantity
+            }
+        });
+    });
+</script>
+
 
 {% endblock %}
