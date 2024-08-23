@@ -29,11 +29,11 @@ def calculate_discounted_price(product, quantity, size_percentage):
 
     # Apply quantity-based discount (if any)
     if quantity == 2:
-        discount = Decimal(0.15)  # 15% off for 2 items
+        discount = Decimal(0.10)  # 10% off for 2 items
     elif quantity == 3:
-        discount = Decimal(0.15)  # Same discount for 3 items (adjust as needed)
+        discount = Decimal(0.10)  # Same discount for 3 items (adjust as needed)
     elif quantity == 4:
-        discount = Decimal(0.15)  # Same discount for 4 items (adjust as needed)
+        discount = Decimal(0.10)  # Same discount for 4 items (adjust as needed)
     else:
         discount = Decimal(0)
 

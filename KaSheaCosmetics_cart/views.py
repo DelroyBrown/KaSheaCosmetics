@@ -1,33 +1,63 @@
 # KaSheaCosmetics_cart\views.py
-from django.http import JsonResponse
+import logging
 from decimal import Decimal
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from KaSheaCosmetics_products.models import Product, ProductSize
+from KaSheaCosmetics_products.views import calculate_discounted_price
+
+
+# Set up a logger
+logger = logging.getLogger(__name__)
+
+CART_SESSION_KEY = "cart"
+
+
+# Helper function to validate quantity
+def validate_quantity(quantity):
+    try:
+        quantity = int(quantity)
+        if quantity <= 0:
+            raise ValueError("Quantity must be positive.")
+        return quantity
+    except (ValueError, TypeError):
+        return None
 
 
 def shopping_cart(request):
-    cart = request.session.get("cart", {})
+    cart = request.session.get(CART_SESSION_KEY, {})
     cart_items = []
-
     total = Decimal(0)
 
-    for product_key, item in cart.items():
-        product = get_object_or_404(Product, id=item["product_id"])
-        size_adjustment = Decimal(item["size_percentage"]) / Decimal(100)
-        # Convert price to Decimal before performing the calculation
-        adjustment_price = Decimal(item["price"]) * (Decimal(1) + size_adjustment)
-        total_price = adjustment_price * item["quantity"]
-        total += total_price
+    # Optimize query by fetching all products at once
+    product_ids = [item["product_id"] for item in cart.values()]
+    products = Product.objects.filter(id__in=product_ids)
+    products_dict = {product.id: product for product in products}
 
-        cart_items.append(
-            {
-                "product_name": item["product_name"],
-                "size": item["size"],
-                "quantity": item["quantity"],
-                "price": round(total_price, 2),
-                "image_url": product.image_1.url,
-            }
-        )
+    for product_key, item in cart.items():
+        product = products_dict.get(item["product_id"])
+
+        if product:
+            # Apply the discount calculation here for each cart item
+            discounted_price = calculate_discounted_price(
+                product, item["quantity"], item["size_percentage"]
+            )
+
+            total += discounted_price
+
+            cart_items.append(
+                {
+                    "product_name": item["product_name"],
+                    "size": item["size"],
+                    "quantity": item["quantity"],
+                    "price": discounted_price,  # Update with the discounted price
+                    "image_url": product.image_1.url,
+                    "product_id": item["product_id"],
+                    "product_key": product_key,  # Pass product_key to template
+                }
+            )
+
+    logger.debug(f"Current cart: {cart}")
 
     return render(
         request,
@@ -39,38 +69,37 @@ def shopping_cart(request):
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
-    # Ensure quantity is set properly; default to 1 if missing
-    quantity = request.POST.get("quantity")
-    if not quantity:
-        quantity = 1  # Default to 1 if not provided
-    else:
-        quantity = int(quantity)
+    quantity = validate_quantity(request.POST.get("quantity", 1))
+    if quantity is None:
+        messages.error(request, "Invalid quantity")
+        return redirect(
+            "KaSheaCosmetics_products:product_detail", product_id=product_id
+        )
 
     size_id = request.POST.get("size")
     selected_size = get_object_or_404(ProductSize, id=size_id)
 
-    # Get the cart from the session (or create an empty one if it doesn't exist)
-    cart = request.session.get("cart", {})
-
+    cart = request.session.get(CART_SESSION_KEY, {})
     product_key = f"{product_id}_{size_id}"
 
-    # If the product is already in the cart, update the quantity
+    # Convert Decimal to float before saving it to session
+    price = float(product.price)
+
     if product_key in cart:
-        cart[product_key]["quantity"] += quantity
+        cart[product_key]["quantity"] = quantity
     else:
-        # Otherwise, add the new product to the cart
         cart[product_key] = {
             "product_id": product_id,
             "product_name": product.name,
             "size": selected_size.size_name,
             "size_id": size_id,
-            "price": float(product.price),
+            "price": price,  # Store as float
             "quantity": quantity,
             "size_percentage": selected_size.added_percentage,
         }
 
-    # Save the updated cart back to the session
-    request.session["cart"] = cart
+    request.session[CART_SESSION_KEY] = cart
+    request.session.modified = True  # Ensure the session is saved
 
     return redirect("KaSheaCosmetics_cart:shopping-cart")
 
@@ -80,51 +109,29 @@ def update_cart_quantity(request):
         product_key = request.POST.get("product_key")
         new_quantity = request.POST.get("quantity")
 
-        # Debugging logs
-        print(f"Product Key: {product_key}, Quantity: {new_quantity}")
+        logger.debug(
+            f"Received product_key: {product_key}, new_quantity: {new_quantity}"
+        )
 
-        if not product_key or not new_quantity:
-            return JsonResponse(
-                {"error": "Missing product key or quantity"}, status=400
-            )
+        if not product_key or new_quantity is None:
+            messages.error(request, "Invalid product or quantity")
+            return redirect("KaSheaCosmetics_cart:shopping-cart")
 
-        try:
-            new_quantity = int(new_quantity)
-        except ValueError:
-            return JsonResponse({"error": "Invalid quantity"}, status=400)
+        new_quantity = validate_quantity(new_quantity)
+        if new_quantity is None:
+            messages.error(request, "Invalid quantity")
+            return redirect("KaSheaCosmetics_cart:shopping-cart")
 
-        # Fetch the cart from the session
-        cart = request.session.get("cart", {})
+        cart = request.session.get(CART_SESSION_KEY, {})
 
-        # Ensure the product exists in the cart
-        if product_key in cart:
-            # Set the new quantity instead of incrementing
-            cart[product_key]["quantity"] = new_quantity
+        if product_key not in cart:
+            messages.error(request, "Product not found in cart")
+            return redirect("KaSheaCosmetics_cart:shopping-cart")
 
-            # Recalculate price based on the new quantity and size adjustment
-            size_adjustment = Decimal(cart[product_key]["size_percentage"]) / Decimal(
-                100
-            )
-            adjusted_price = Decimal(cart[product_key]["price"]) * (
-                Decimal(1) + size_adjustment
-            )
-            updated_item_price = round(adjusted_price * new_quantity, 2)
+        # Update the quantity
+        cart[product_key]["quantity"] = new_quantity
+        request.session.modified = True  # Force the session to save
 
-            # Recalculate the cart total
-            total = Decimal(0)
-            for key, item in cart.items():
-                size_adjustment = Decimal(item["size_percentage"]) / Decimal(100)
-                adjusted_price = Decimal(item["price"]) * (Decimal(1) + size_adjustment)
-                total += adjusted_price * item["quantity"]
+        logger.debug(f"Updated cart: {cart}")
 
-            # Update the cart in the session
-            request.session["cart"] = cart
-
-            # Send back the updated price and cart total
-            return JsonResponse(
-                {
-                    "updated_price": str(updated_item_price),
-                    "cart_total": str(round(total, 2)),
-                }
-            )
-    return JsonResponse({"error": "Invalid request"}, status=400)
+    return redirect("KaSheaCosmetics_cart:shopping-cart")
