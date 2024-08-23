@@ -12,6 +12,7 @@ urlpatterns = [
     path(
         "update-cart-quantity/", views.update_cart_quantity, name="update-cart-quantity"
     ),
+    path("delete-from-cart/", views.delete_from_cart, name="delete-from-cart"),
 ]
 
 if settings.DEBUG:

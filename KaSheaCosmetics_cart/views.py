@@ -1,5 +1,4 @@
 # KaSheaCosmetics_cart\views.py
-import logging
 from decimal import Decimal
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
@@ -7,8 +6,6 @@ from KaSheaCosmetics_products.models import Product, ProductSize
 from KaSheaCosmetics_products.views import calculate_discounted_price
 
 
-# Set up a logger
-logger = logging.getLogger(__name__)
 
 CART_SESSION_KEY = "cart"
 
@@ -57,7 +54,6 @@ def shopping_cart(request):
                 }
             )
 
-    logger.debug(f"Current cart: {cart}")
 
     return render(
         request,
@@ -109,10 +105,7 @@ def update_cart_quantity(request):
         product_key = request.POST.get("product_key")
         new_quantity = request.POST.get("quantity")
 
-        logger.debug(
-            f"Received product_key: {product_key}, new_quantity: {new_quantity}"
-        )
-
+       
         if not product_key or new_quantity is None:
             messages.error(request, "Invalid product or quantity")
             return redirect("KaSheaCosmetics_cart:shopping-cart")
@@ -132,6 +125,25 @@ def update_cart_quantity(request):
         cart[product_key]["quantity"] = new_quantity
         request.session.modified = True  # Force the session to save
 
-        logger.debug(f"Updated cart: {cart}")
+
+    return redirect("KaSheaCosmetics_cart:shopping-cart")
+
+
+def delete_from_cart(request):
+    if request.method == "POST":
+        product_key = request.POST.get("product_key")
+
+        if not product_key:
+            messages.error(request, "Invalid product key")
+            return redirect("KaSheaCosmetics_cart:shopping-cart")
+
+        cart = request.session.get(CART_SESSION_KEY, {})
+
+        if product_key in cart:
+            del cart[product_key]
+            request.session.modified = True
+            messages.success(request, "Item Removed From Cart.")
+        else:
+            messages.error(request, "Product not found in cart.")
 
     return redirect("KaSheaCosmetics_cart:shopping-cart")
