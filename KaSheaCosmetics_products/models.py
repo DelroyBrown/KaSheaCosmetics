@@ -1,4 +1,5 @@
 # KaSheaCosmetics_products\models.py
+from decimal import Decimal
 from django.db import models
 
 
@@ -36,6 +37,13 @@ class Ingredients(models.Model):
         return self.ingredient_name
 
 
+class DefaultShippingCost(models.Model):
+    cost = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"Current default shipping cost: £{self.cost}"
+
+
 class Product(models.Model):
     name = models.CharField(max_length=200, blank=False, null=False, default="")
     description = models.TextField(blank=False, null=False, default="")
@@ -50,11 +58,18 @@ class Product(models.Model):
     product_sizes = models.ManyToManyField(ProductSize, blank=False)
     stock = models.IntegerField(blank=False, null=False)
     shipping_option = models.ForeignKey(
-        ShippingOption, blank=False, null=False, default="", on_delete=models.CASCADE
+        ShippingOption, blank=False, null=False, default=None, on_delete=models.CASCADE
     )
     product_details = models.TextField(blank=True, null=True, default="")
     how_to_use = models.TextField(blank=True, null=True, default="")
     ingredients = models.ManyToManyField(Ingredients, blank=True)
+
+    def get_shipping_cost(self):
+        if self.shipping_option:
+            return self.shipping_option.cost
+
+        default_shipping = DefaultShippingCost.objects.first()
+        return default_shipping.cost if default_shipping else Decimal(0)
 
     def __str__(self):
         return self.name

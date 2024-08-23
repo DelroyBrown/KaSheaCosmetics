@@ -98,7 +98,7 @@
             </div>
         
     {% endfor %}
-    <p><strong>Total: £<span id="cart-total">{{ total }}</span></strong></p>
+    <p><strong>Total: £<span id="cart-total">{{ subtotal|floatformat:2 }}</span></strong></p>
 {% endif %}
 
             <div class="row pt-8 pt-lg-11 pb-16 pb-lg-18">
@@ -114,6 +114,7 @@
                 </div>
                 <div class="col-lg-4 pt-lg-2 pt-10">
                     <h4 class="fs-24 mb-6">Shipping Caculator</h4>
+                    <p class="mb-7">Enter your town/city to calculate shipping cost.</p>
                     <form action="{% url 'KaSheaCosmetics_cart:shopping-cart' %}" method="GET">
                        
                        
@@ -129,11 +130,20 @@
                         <div class="card-body px-9 pt-6">
                             <div class="d-flex align-items-center justify-content-between mb-5">
                                 <span>Subtotal:</span>
-                                <span class="d-block ml-auto text-body-emphasis fw-bold">$99.00</span>
+                                <span class="d-block ml-auto text-body-emphasis fw-bold">£{{ subtotal|floatformat:2 }}
+
+                                </span>
                             </div>
                             <div class="d-flex align-items-center justify-content-between">
                                 <span>Shipping:</span>
-                                <span class="d-block ml-auto text-body-emphasis fw-bold">£{{shipping_cost|floatformat:2}}</span>
+                                <span class="d-block ml-auto text-body-emphasis fw-bold">
+                                    {% if shipping_city %}
+                                    £{{ shipping_cost|floatformat:2 }}
+                                    {% endif %}
+                                    {% if not shipping_city %}
+                                        £{{ default_shipping|floatformat:2 }}
+                                    {% endif %}
+                                </span>
                             </div>
                         </div>
                         <div class="card-footer bg-transparent px-0 pt-5 pb-7 mx-9">

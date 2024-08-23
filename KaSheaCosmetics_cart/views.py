@@ -3,7 +3,7 @@ from decimal import Decimal
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from KaSheaCosmetics_cart.models import ShippingLocation
-from KaSheaCosmetics_products.models import Product, ProductSize
+from KaSheaCosmetics_products.models import Product, ProductSize, DefaultShippingCost
 from KaSheaCosmetics_products.views import calculate_discounted_price
 
 
@@ -26,9 +26,11 @@ def shopping_cart(request):
     cart_items = []
     total = Decimal(0)
     shipping_cost = Decimal(0)
-    shipping_city = request.GET.get(
-        "shipping_city", ""
-    )  # Get city from the form submission
+    subtotal = Decimal(0)
+    shipping_city = request.GET.get("shipping_city", "")
+
+    # Initialize default shipping cost at the start
+    default_shipping = None
 
     # Optimize query by fetching all products at once
     product_ids = [item["product_id"] for item in cart.values()]
@@ -43,7 +45,15 @@ def shopping_cart(request):
             discounted_price = calculate_discounted_price(
                 product, item["quantity"], item["size_percentage"]
             )
-            total += discounted_price
+
+            subtotal += discounted_price  # Add product prices to subtotal
+            total += discounted_price  # Add to total as well
+
+            # Get the shipping cost for each product
+            product_shipping_cost = (
+                product.get_shipping_cost()
+            )  # Use the get_shipping_cost method
+
             cart_items.append(
                 {
                     "product_name": item["product_name"],
@@ -53,6 +63,7 @@ def shopping_cart(request):
                     "image_url": product.image_1.url,
                     "product_id": item["product_id"],
                     "product_key": product_key,
+                    "shipping_cost": product_shipping_cost,
                 }
             )
 
@@ -65,18 +76,28 @@ def shopping_cart(request):
             messages.error(
                 request, f"No shipping option available for {shipping_city}."
             )
+    else:
+        # If no city is provided, fetch the default shipping cost
+        default_shipping = DefaultShippingCost.objects.first()
+        if default_shipping:
+            shipping_cost = default_shipping.cost
 
     # Add shipping cost to the total
     total += shipping_cost
 
+    # Pass the subtotal, total, and shipping cost to the template
     return render(
         request,
         "cart/shopping_cart.html",
         {
             "cart_items": cart_items,
             "total": round(total, 2),
+            "subtotal": round(subtotal, 2),
             "shipping_cost": round(shipping_cost, 2),
             "shipping_city": shipping_city,
+            "default_shipping": (
+                default_shipping.cost if default_shipping else None
+            ),  # Pass default shipping cost, if available
         },
     )
 
