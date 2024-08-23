@@ -114,41 +114,11 @@
                 </div>
                 <div class="col-lg-4 pt-lg-2 pt-10">
                     <h4 class="fs-24 mb-6">Shipping Caculator</h4>
-                    <form>
-                        <div class="d-flex mb-5">
-                            <div class="form-check me-6 me-lg-9">
-                                <input class="form-check-input form-check-input-body-emphasis" type="radio"
-                                    name="flexRadioDefault" id="flexRadioDefault1">
-                                <label class="form-check-label" for="flexRadioDefault1">
-                                    Free shipping
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input form-check-input-body-emphasis" type="radio"
-                                    name="flexRadioDefault" id="flexRadioDefault2" checked>
-                                <label class="form-check-label" for="flexRadioDefault2">
-                                    Flat rate: $75
-                                </label>
-                            </div>
-                        </div>
-                        <div class="dropdown bg-body-secondary rounded mb-7">
-                            <a href="#"
-                                class="form-select text-body-emphasis dropdown-toggle d-flex justify-content-between align-items-center text-decoration-none text-secondary position-relative d-block"
-                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Viet Nam
-                            </a>
-                            <div class="dropdown-menu w-100 px-0 py-4">
-                                <a class="dropdown-item px-6 py-4" href="#">Andorra</a>
-                                <a class="dropdown-item px-6 py-4" href="#">San Marino</a>
-                                <a class="dropdown-item px-6 py-4" href="#">Tunisia</a>
-                                <a class="dropdown-item px-6 py-4" href="#">Micronesia</a>
-                                <a class="dropdown-item px-6 py-4" href="#">Solomon Islands</a>
-                                <a class="dropdown-item px-6 py-4" href="#">Macedonia</a>
-                            </div>
-                        </div>
-                        <input type="text" class="form-control mb-7" placeholder="State / County" required>
-                        <input type="text" class="form-control mb-7" placeholder="City" required>
-                        <input type="text" class="form-control mb-7" placeholder="Postcode / Zip">
+                    <form action="{% url 'KaSheaCosmetics_cart:shopping-cart' %}" method="GET">
+                       
+                       
+                        <input type="text" value="{{ shipping_city }}"  class="form-control mb-7 id="shipping_city" name="shipping_city" placeholder="State / County" required>
+                      
                         <button type="submit" class="btn btn-dark btn-hover-bg-primary btn-hover-border-primary">
                             Update total
                         </button>
@@ -163,13 +133,13 @@
                             </div>
                             <div class="d-flex align-items-center justify-content-between">
                                 <span>Shipping:</span>
-                                <span class="d-block ml-auto text-body-emphasis fw-bold">$0</span>
+                                <span class="d-block ml-auto text-body-emphasis fw-bold">£{{shipping_cost|floatformat:2}}</span>
                             </div>
                         </div>
                         <div class="card-footer bg-transparent px-0 pt-5 pb-7 mx-9">
                             <div class="d-flex align-items-center justify-content-between fw-bold mb-7">
-                                <span class="text-secondary text-body-emphasis">Total pricre:</span>
-                                <span class="d-block ml-auto text-body-emphasis fs-4 fw-bold">$99.00</span>
+                                <span class="text-secondary text-body-emphasis">Total price:</span>
+                                <span class="d-block ml-auto text-body-emphasis fs-4 fw-bold">£{{ total }}</span>
                             </div>
                             <a href="../shop/checkout.html"
                                 class="btn w-100 btn-dark btn-hover-bg-primary btn-hover-border-primary"

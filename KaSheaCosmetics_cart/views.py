@@ -2,9 +2,9 @@
 from decimal import Decimal
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from KaSheaCosmetics_cart.models import ShippingLocation
 from KaSheaCosmetics_products.models import Product, ProductSize
 from KaSheaCosmetics_products.views import calculate_discounted_price
-
 
 
 CART_SESSION_KEY = "cart"
@@ -25,6 +25,10 @@ def shopping_cart(request):
     cart = request.session.get(CART_SESSION_KEY, {})
     cart_items = []
     total = Decimal(0)
+    shipping_cost = Decimal(0)
+    shipping_city = request.GET.get(
+        "shipping_city", ""
+    )  # Get city from the form submission
 
     # Optimize query by fetching all products at once
     product_ids = [item["product_id"] for item in cart.values()]
@@ -39,26 +43,41 @@ def shopping_cart(request):
             discounted_price = calculate_discounted_price(
                 product, item["quantity"], item["size_percentage"]
             )
-
             total += discounted_price
-
             cart_items.append(
                 {
                     "product_name": item["product_name"],
                     "size": item["size"],
                     "quantity": item["quantity"],
-                    "price": discounted_price,  # Update with the discounted price
+                    "price": discounted_price,
                     "image_url": product.image_1.url,
                     "product_id": item["product_id"],
-                    "product_key": product_key,  # Pass product_key to template
+                    "product_key": product_key,
                 }
             )
 
+    # Check if a shipping city is provided and get the corresponding cost
+    if shipping_city:
+        try:
+            shipping_location = ShippingLocation.objects.get(city__iexact=shipping_city)
+            shipping_cost = shipping_location.shipping_cost
+        except ShippingLocation.DoesNotExist:
+            messages.error(
+                request, f"No shipping option available for {shipping_city}."
+            )
+
+    # Add shipping cost to the total
+    total += shipping_cost
 
     return render(
         request,
         "cart/shopping_cart.html",
-        {"cart_items": cart_items, "total": round(total, 2)},
+        {
+            "cart_items": cart_items,
+            "total": round(total, 2),
+            "shipping_cost": round(shipping_cost, 2),
+            "shipping_city": shipping_city,
+        },
     )
 
 
@@ -105,7 +124,6 @@ def update_cart_quantity(request):
         product_key = request.POST.get("product_key")
         new_quantity = request.POST.get("quantity")
 
-       
         if not product_key or new_quantity is None:
             messages.error(request, "Invalid product or quantity")
             return redirect("KaSheaCosmetics_cart:shopping-cart")
@@ -124,7 +142,6 @@ def update_cart_quantity(request):
         # Update the quantity
         cart[product_key]["quantity"] = new_quantity
         request.session.modified = True  # Force the session to save
-
 
     return redirect("KaSheaCosmetics_cart:shopping-cart")
 
