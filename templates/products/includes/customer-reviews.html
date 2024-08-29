@@ -18,18 +18,19 @@
         </div>
     </div>
     <div class="collapse mb-14" id="customer-review">
-        <form class="product-review-form">
+        <form class="product-review-form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
             <div class="row">
                 <div class="col-sm-4">
                     <div class="form-group mb-7">
                         <label class="mb-4 fs-6 fw-semibold text-body-emphasis" for="reviewName">Name</label>
-                        <input id="reviewName" class="form-control" type="text" name="name">
+                        <input id="reviewName" class="form-control" type="text" name="name" required>
                     </div>
                 </div>
                 <div class="col-sm-4">
                     <div class="form-group mb-4">
                         <label class="mb-4 fs-6 fw-semibold text-body-emphasis" for="reviewEmail">Email</label>
-                        <input id="reviewEmail" type="email" name="email" class="form-control">
+                        <input id="reviewEmail" type="email" name="email" class="form-control" required>
                     </div>
                 </div>
             </div>
@@ -37,47 +38,47 @@
                 <p class="mt-4 mb-5 fs-6 fw-semibold text-body-emphasis">Your Rating*</p>
                 <div class="form-group mb-6 d-flex justify-content-start">
                     <div class="rate-input">
-                        <input type="radio" id="star5" name="rate" value="5" style>
-                        <label for="star5" title="text" class="mb-0 mr-1 lh-1">
+                        <input type="radio" id="star5" name="product_rating" value="5" required>
+                        <label for="star5" title="5 stars" class="mb-0 mr-1 lh-1">
                             <i class="far fa-star"></i>
                         </label>
-                        <input type="radio" id="star4" name="rate" value="5" style>
-                        <label for="star4" title="text" class="mb-0 mr-1 lh-1">
+                        <input type="radio" id="star4" name="product_rating" value="4">
+                        <label for="star4" title="4 stars" class="mb-0 mr-1 lh-1">
                             <i class="far fa-star"></i>
                         </label>
-                        <input type="radio" id="star3" name="rate" value="5" style>
-                        <label for="star3" title="text" class="mb-0 mr-1 lh-1">
+                        <input type="radio" id="star3" name="product_rating" value="3">
+                        <label for="star3" title="3 stars" class="mb-0 mr-1 lh-1">
                             <i class="far fa-star"></i>
                         </label>
-                        <input type="radio" id="star2" name="rate" value="5" style>
-                        <label for="star2" title="text" class="mb-0 mr-1 lh-1">
+                        <input type="radio" id="star2" name="product_rating" value="2">
+                        <label for="star2" title="2 stars" class="mb-0 mr-1 lh-1">
                             <i class="far fa-star"></i>
                         </label>
-                        <input type="radio" id="star1" name="rate" value="5" style>
-                        <label for="star1" title="text" class="mb-0 mr-1 lh-1">
+                        <input type="radio" id="star1" name="product_rating" value="1">
+                        <label for="star1" title="1 star" class="mb-0 mr-1 lh-1">
                             <i class="far fa-star"></i>
                         </label>
                     </div>
                 </div>
             </div>
             <div class="form-group mb-7">
-                <label class="mb-4 fs-6 fw-semibold text-body-emphasis" for="reviewTitle">Title of
-                    Review:</label>
-                <input id="reviewTitle" type="text" name="title" class="form-control">
+                <label class="mb-4 fs-6 fw-semibold text-body-emphasis" for="reviewTitle">Title of Review:</label>
+                <input id="reviewTitle" type="text" name="review_title" class="form-control" required>
             </div>
             <div class="form-group mb-10">
                 <label class="mb-4 fs-6 fw-semibold text-body-emphasis" for="reviewMessage">How was your overall
                     experience?</label>
-                <textarea id="reviewMessage" class="form-control" name="message" rows="5"></textarea>
+                <textarea id="reviewMessage" class="form-control" name="review_content" rows="5" required></textarea>
+            </div>
+            <div class="form-group mb-7">
+                <label class="mb-4 fs-6 fw-semibold text-body-emphasis" for="reviewAddPhoto">Add a Photo
+                    (Optional):</label>
+                <input type="file" name="image" class="form-control border" id="reviewAddPhoto">
             </div>
             <div class="d-flex">
-                <div class="me-4">
-                    <div class="input-group align-items-center">
-                        <input type="file" name="img" class="form-control border" id="reviewrAddPhoto">
-                    </div>
-                </div><button type="submit"
-                    class="btn btn-dark btn-hover-bg-primary btn-hover-border-primary fw-semibold">Submit
-                    Now</button>
+                <button type="submit" class="btn btn-dark btn-hover-bg-primary btn-hover-border-primary fw-semibold">
+                    Submit Now
+                </button>
             </div>
         </form>
     </div>
@@ -85,6 +86,8 @@
     <div class=" mt-12">
         <h3 class="fs-5">2947 Reviews</h3>
         <hr>
+        <!-- REVIEWS -->
+         {% for product_review in product_reviews %}
         <div class="border-bottom pb-7 pt-10">
             <div class="d-flex align-items-center mb-6">
                 <div class="d-flex align-items-center fs-15px ls-0">
@@ -152,16 +155,19 @@
                 <img src="#" data-src="../assets/images/others/single-product-01.png"
                     class="me-6 lazy-image rounded-circle" width="60" height="60" alt="Avatar">
                 <div class>
-                    <h5 class="mt-0 mb-4 fs-14px text-uppercase ls-1">JENNIFER C.</h5>
+                    <h5 class="mt-0 mb-4 fs-14px text-uppercase ls-1">
+                        {{ product_review.name }}
+                    </h5>
                     <p class="mb-0">/ Orlando, FL</p>
                 </div>
             </div>
-            <p class="fw-semibold fs-6 text-body-emphasis mb-5">Favorite Foundation</p>
-            <p class="mb-10 fs-6">I order the samples so as not to make mistakes when choosing my color Is a
-                good product as a light shade but the sample doesn&#39;t contain enough product to cover the
-                skin and decide clearly, around my eyes I used the “peach bisque”. I used with primer all mu
-                face and finished texture is good. At the end for my latin tan skin a choose “golden peach” But
-                is out of stock the primer I think is a good match.</p>
+            <p class="fw-semibold fs-6 text-body-emphasis mb-5">
+                {{ product_review.review_title }}
+            </p>
+            <p class="mb-10 fs-6">{{ product_review.review_content }}</p>
+            {% if product_review.image %}
+            <img src="{{ product_review.image.url }}" alt="Review Image" style="max-width: 200px; height: auto;">
+            {% endif %}
             <div class="d-flex justify-content-end align-items-center">
                 <a href="#" class="fs-14px mb-0 text-secondary">Was This Review Helpful?</a>
                 <p class="mb-0 ms-7 text-body-emphasis">
@@ -178,384 +184,8 @@
                 </p>
             </div>
         </div>
-        <div class="border-bottom pb-7 pt-10">
-            <div class="d-flex align-items-center mb-6">
-                <div class="d-flex align-items-center fs-15px ls-0">
-                    <div class="rating">
-                        <div class="empty-stars">
-                            <span class="star">
-                                <svg class="icon star-o">
-                                    <use xlink:href="#star-o"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star-o">
-                                    <use xlink:href="#star-o"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star-o">
-                                    <use xlink:href="#star-o"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star-o">
-                                    <use xlink:href="#star-o"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star-o">
-                                    <use xlink:href="#star-o"></use>
-                                </svg>
-                            </span>
-                        </div>
-                        <div class="filled-stars" style="width: 80%">
-                            <span class="star">
-                                <svg class="icon star text-primary">
-                                    <use xlink:href="#star"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star text-primary">
-                                    <use xlink:href="#star"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star text-primary">
-                                    <use xlink:href="#star"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star text-primary">
-                                    <use xlink:href="#star"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star text-primary">
-                                    <use xlink:href="#star"></use>
-                                </svg>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <span class="fs-3px mx-5"><i class="fas fa-circle"></i></span>
-                <span class="fs-14">3 day ago</span>
-            </div>
-            <div class="d-flex justify-content-start align-items-center mb-5">
-                <img src="#" data-src="../assets/images/others/product-review-avatar-01.jpg"
-                    class="me-6 lazy-image rounded-circle" width="60" height="60" alt="Avatar">
-                <div class>
-                    <h5 class="mt-0 mb-4 fs-14px text-uppercase ls-1">JENNIFER C.</h5>
-                    <p class="mb-0">/ Georgia</p>
-                </div>
-            </div>
-            <p class="fw-semibold fs-6 text-body-emphasis mb-5">Good as light coverage</p>
-            <p class="mb-10 fs-6">The foundation feels light on my face, and the color matches great. Also the
-                customer service is phenomenal. I would purchase again.</p>
-            <div class="mb-10"><img src="#" data-src="../assets/images/others/single-product-03.jpg"
-                    class="mx-3 w-auto lazy-image" alt>
-                <img src="#" data-src="../assets/images/others/single-product-02.jpg" class="mx-3 w-auto lazy-image"
-                    alt>
-            </div>
-            <div class="d-flex justify-content-end align-items-center">
-                <a href="#" class="fs-14px mb-0 text-secondary">Was This Review Helpful?</a>
-                <p class="mb-0 ms-7 text-body-emphasis">
-                    <svg class="icon icon-like align-baseline">
-                        <use xlink:href="#icon-like"></use>
-                    </svg>
-                    12
-                </p>
-                <p class="mb-0 ms-6 text-body-emphasis">
-                    <svg class="icon icon-unlike align-baseline">
-                        <use xlink:href="#icon-unlike"></use>
-                    </svg>
-                    4
-                </p>
-            </div>
-        </div>
-        <div class="border-bottom pb-7 pt-10">
-            <div class="d-flex align-items-center mb-6">
-                <div class="d-flex align-items-center fs-15px ls-0">
-                    <div class="rating">
-                        <div class="empty-stars">
-                            <span class="star">
-                                <svg class="icon star-o">
-                                    <use xlink:href="#star-o"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star-o">
-                                    <use xlink:href="#star-o"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star-o">
-                                    <use xlink:href="#star-o"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star-o">
-                                    <use xlink:href="#star-o"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star-o">
-                                    <use xlink:href="#star-o"></use>
-                                </svg>
-                            </span>
-                        </div>
-                        <div class="filled-stars" style="width: 100%">
-                            <span class="star">
-                                <svg class="icon star text-primary">
-                                    <use xlink:href="#star"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star text-primary">
-                                    <use xlink:href="#star"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star text-primary">
-                                    <use xlink:href="#star"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star text-primary">
-                                    <use xlink:href="#star"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star text-primary">
-                                    <use xlink:href="#star"></use>
-                                </svg>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <span class="fs-3px mx-5"><i class="fas fa-circle"></i></span>
-                <span class="fs-14">3 day ago</span>
-            </div>
-            <div class="d-flex justify-content-start align-items-center mb-5">
-                <img src="#" data-src="../assets/images/others/product-review-avatar-03.jpg"
-                    class="me-6 lazy-image rounded-circle" width="60" height="60" alt="Avatar">
-                <div class>
-                    <h5 class="mt-0 mb-4 fs-14px text-uppercase ls-1">JENNIFER C.</h5>
-                    <p class="mb-0">/ Orlando, FL</p>
-                </div>
-            </div>
-            <p class="fw-semibold fs-6 text-body-emphasis mb-5">Favorite Foundation</p>
-            <p class="mb-10 fs-6">The foundation feels light on my face, and the color matches great. Also the
-                customer service is phenomenal. I would purchase again.</p>
-            <div class="mb-10"><img src="#" data-src="../assets/images/others/single-product-03.jpg"
-                    class="mx-3 w-auto lazy-image" alt>
-                <img src="#" data-src="../assets/images/others/single-product-02.jpg" class="mx-3 w-auto lazy-image"
-                    alt>
-            </div>
-            <div class="d-flex justify-content-end align-items-center">
-                <a href="#" class="fs-14px mb-0 text-secondary">Was This Review Helpful?</a>
-                <p class="mb-0 ms-7 text-body-emphasis">
-                    <svg class="icon icon-like align-baseline">
-                        <use xlink:href="#icon-like"></use>
-                    </svg>
-                    10
-                </p>
-                <p class="mb-0 ms-6 text-body-emphasis">
-                    <svg class="icon icon-unlike align-baseline">
-                        <use xlink:href="#icon-unlike"></use>
-                    </svg>
-                    0
-                </p>
-            </div>
-        </div>
-        <div class="border-bottom pb-7 pt-10">
-            <div class="d-flex align-items-center mb-6">
-                <div class="d-flex align-items-center fs-15px ls-0">
-                    <div class="rating">
-                        <div class="empty-stars">
-                            <span class="star">
-                                <svg class="icon star-o">
-                                    <use xlink:href="#star-o"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star-o">
-                                    <use xlink:href="#star-o"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star-o">
-                                    <use xlink:href="#star-o"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star-o">
-                                    <use xlink:href="#star-o"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star-o">
-                                    <use xlink:href="#star-o"></use>
-                                </svg>
-                            </span>
-                        </div>
-                        <div class="filled-stars" style="width: 100%">
-                            <span class="star">
-                                <svg class="icon star text-primary">
-                                    <use xlink:href="#star"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star text-primary">
-                                    <use xlink:href="#star"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star text-primary">
-                                    <use xlink:href="#star"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star text-primary">
-                                    <use xlink:href="#star"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star text-primary">
-                                    <use xlink:href="#star"></use>
-                                </svg>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <span class="fs-3px mx-5"><i class="fas fa-circle"></i></span>
-                <span class="fs-14">3 day ago</span>
-            </div>
-            <div class="d-flex justify-content-start align-items-center mb-5">
-                <img src="#" data-src="../assets/images/others/product-review-avatar-02.jpg"
-                    class="me-6 lazy-image rounded-circle" width="60" height="60" alt="Avatar">
-                <div class>
-                    <h5 class="mt-0 mb-4 fs-14px text-uppercase ls-1">JENNIFER C.</h5>
-                    <p class="mb-0">/ Orlando, FL</p>
-                </div>
-            </div>
-            <p class="fw-semibold fs-6 text-body-emphasis mb-5">Favorite Foundation</p>
-            <p class="mb-10 fs-6">I order the samples so as not to make mistakes when choosing my color Is a
-                good product as a light shade but the sample doesn’t contain enough product to cover the skin
-                and decide clearly, around my eyes I used the “peach bisque”.I used with primer all mu face and
-                finished texture is good. At the end for my latin tan skin a choose “golden peach” But is out of
-                stock the primer I think is a good match.</p>
-            <div class="d-flex justify-content-end align-items-center">
-                <a href="#" class="fs-14px mb-0 text-secondary">Was This Review Helpful?</a>
-                <p class="mb-0 ms-7 text-body-emphasis">
-                    <svg class="icon icon-like align-baseline">
-                        <use xlink:href="#icon-like"></use>
-                    </svg>
-                    10
-                </p>
-                <p class="mb-0 ms-6 text-body-emphasis">
-                    <svg class="icon icon-unlike align-baseline">
-                        <use xlink:href="#icon-unlike"></use>
-                    </svg>
-                    0
-                </p>
-            </div>
-        </div>
-        <div class="border-bottom pb-7 pt-10">
-            <div class="d-flex align-items-center mb-6">
-                <div class="d-flex align-items-center fs-15px ls-0">
-                    <div class="rating">
-                        <div class="empty-stars">
-                            <span class="star">
-                                <svg class="icon star-o">
-                                    <use xlink:href="#star-o"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star-o">
-                                    <use xlink:href="#star-o"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star-o">
-                                    <use xlink:href="#star-o"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star-o">
-                                    <use xlink:href="#star-o"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star-o">
-                                    <use xlink:href="#star-o"></use>
-                                </svg>
-                            </span>
-                        </div>
-                        <div class="filled-stars" style="width: 100%">
-                            <span class="star">
-                                <svg class="icon star text-primary">
-                                    <use xlink:href="#star"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star text-primary">
-                                    <use xlink:href="#star"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star text-primary">
-                                    <use xlink:href="#star"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star text-primary">
-                                    <use xlink:href="#star"></use>
-                                </svg>
-                            </span>
-                            <span class="star">
-                                <svg class="icon star text-primary">
-                                    <use xlink:href="#star"></use>
-                                </svg>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <span class="fs-3px mx-5"><i class="fas fa-circle"></i></span>
-                <span class="fs-14">3 day ago</span>
-            </div>
-            <div class="d-flex justify-content-start align-items-center mb-5">
-                <img src="#" data-src="../assets/images/others/product-review-avatar-03.jpg"
-                    class="me-6 lazy-image rounded-circle" width="60" height="60" alt="Avatar">
-                <div class>
-                    <h5 class="mt-0 mb-4 fs-14px text-uppercase ls-1">Lucille D</h5>
-                    <p class="mb-0">/ Georgia</p>
-                </div>
-            </div>
-            <p class="fw-semibold fs-6 text-body-emphasis mb-5">Good as light coverage</p>
-            <p class="mb-10 fs-6">The foundation feels light on my face, and the color matches great. Also the
-                customer service is phenomenal. I would purchase again.</p>
-            <div class="mb-10"><img src="#" data-src="../assets/images/others/single-product-03.jpg"
-                    class="mx-3 w-auto lazy-image" alt>
-                <img src="#" data-src="../assets/images/others/single-product-02.jpg" class="mx-3 w-auto lazy-image"
-                    alt>
-            </div>
-            <div class="d-flex justify-content-end align-items-center">
-                <a href="#" class="fs-14px mb-0 text-secondary">Was This Review Helpful?</a>
-                <p class="mb-0 ms-7 text-body-emphasis">
-                    <svg class="icon icon-like align-baseline">
-                        <use xlink:href="#icon-like"></use>
-                    </svg>
-                    10
-                </p>
-                <p class="mb-0 ms-6 text-body-emphasis">
-                    <svg class="icon icon-unlike align-baseline">
-                        <use xlink:href="#icon-unlike"></use>
-                    </svg>
-                    0
-                </p>
-            </div>
-        </div>
+        {% endfor %}
+     
     </div>
     <nav class="d-flex mt-13 pt-3 justify-content-center" aria-label="pagination">
         <ul class="pagination m-0">

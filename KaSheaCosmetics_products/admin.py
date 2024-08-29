@@ -1,6 +1,13 @@
 # KaSheaCosmetics_products\admin.py
 from django.contrib import admin
-from .models import Product, Ingredients, ProductSize, ProductCategory, ShippingOption
+from .models import (
+    Product,
+    ProductReview,
+    Ingredients,
+    ProductSize,
+    ProductCategory,
+    ShippingOption,
+)
 
 
 class ProductSizeInline(admin.StackedInline):
@@ -21,10 +28,14 @@ class ProductAdmin(admin.ModelAdmin):
     exclude = (
         "product_sizes",
     )  # Exclude the ManyToMany field from the main form since it's handled by the inline
-    inlines = [ProductSizeInline, ProductIngredientInline]  # Add the inline form for sizes
+    inlines = [
+        ProductSizeInline,
+        ProductIngredientInline,
+    ]  # Add the inline form for sizes
 
 
 admin.site.register(Ingredients)
 admin.site.register(ProductCategory)
 admin.site.register(ShippingOption)
 admin.site.register(ProductSize)
+admin.site.register(ProductReview)

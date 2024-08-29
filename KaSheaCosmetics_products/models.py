@@ -73,3 +73,22 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ProductReview(models.Model):
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name="product_reviews"
+    )
+    name = models.CharField(blank=False, null=False, max_length=30, default="")
+    email = models.EmailField(max_length=100, blank=True, null=True, default="")
+    product_rating = models.PositiveIntegerField()
+    review_title = models.CharField(max_length=100, blank=False, null=False, default="")
+    review_content = models.TextField(
+        max_length=2000, blank=False, null=False, default=""
+    )
+    image = models.ImageField(upload_to="review-images/", blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    approved = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Product review by {self.name} on {self.product.name}"
