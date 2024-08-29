@@ -2,8 +2,9 @@
 from decimal import Decimal
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product, ProductSize
+from .models import Product, ProductSize, ProductReview
 from .forms import ProductReviewForm
+from KaSheaCosmetics_subscriptions.models import CustomerEmails
 
 
 def product_list(request):
@@ -14,7 +15,10 @@ def product_list(request):
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     sizes = product.product_sizes.all()
-    product_reviews = product.product_reviews.filter(approved=True)
+    product_reviews = product.product_reviews.filter(approved=True).order_by(
+        "-created_at"
+    )
+    review_count = product_reviews.count()
 
     if request.method == "POST":
         form = ProductReviewForm(request.POST, request.FILES)
@@ -22,6 +26,14 @@ def product_detail(request, product_id):
             product_review = form.save(commit=False)
             product_review.product = product
             product_review.save()
+
+            if product_review.email:  
+                CustomerEmails.objects.get_or_create(
+                    product=product,
+                    email=product_review.email,
+                    defaults={"name": product_review.name},
+                )
+
             return redirect(
                 "KaSheaCosmetics_products:product_detail", product_id=product_id
             )
@@ -36,6 +48,7 @@ def product_detail(request, product_id):
             "sizes": sizes,
             "form": form,
             "product_reviews": product_reviews,
+            "review_count": review_count,
         },
     )
 
