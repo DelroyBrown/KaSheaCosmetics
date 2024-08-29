@@ -155,9 +155,11 @@
                                 <span class="text-secondary text-body-emphasis">Total price:</span>
                                 <span class="d-block ml-auto text-body-emphasis fs-4 fw-bold">£{{ total }}</span>
                             </div>
-                            <a href="../shop/checkout.html"
+                            <a id="checkout-button" href="javascript:void()"
                                 class="btn w-100 btn-dark btn-hover-bg-primary btn-hover-border-primary"
-                                title="Check Out">Check Out</a>
+                                title="Check Out">
+                                Check Out
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -1730,5 +1732,32 @@
         class="gtf-back-to-top text-decoration-none bg-body text-primary bg-primary-hover text-light-hover shadow square p-0 rounded-circle d-flex align-items-center justify-content-center"
         title="Back To Top" style="--square-size: 48px"><i class="fa-solid fa-arrow-up"></i></a>
 </div>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+<script>
+    var stripe = Stripe("{{ STRIPE_PUBLIC_KEY }}");
+
+    document.getElementById("checkout-button").addEventListener("click", function () {
+        fetch("{% url 'KaSheaCosmetics_checkout:create_checkout_session' %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+        })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (sessionId) {
+            return stripe.redirectToCheckout({ sessionId: sessionId.id });
+        })
+        .then(function (result) {
+            if (result.error) {
+                alert(result.error.message);
+            }
+        });
+    });
+</script>
+</script>
 
 {% endblock %}
