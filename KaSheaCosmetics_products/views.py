@@ -19,6 +19,7 @@ def product_detail(request, product_id):
         "-created_at"
     )
     review_count = product_reviews.count()
+    star_range = range(5)
 
     if request.method == "POST":
         form = ProductReviewForm(request.POST, request.FILES)
@@ -49,6 +50,7 @@ def product_detail(request, product_id):
             "form": form,
             "product_reviews": product_reviews,
             "review_count": review_count,
+            "star_range": star_range,
         },
     )
 
