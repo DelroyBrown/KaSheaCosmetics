@@ -24,71 +24,74 @@
         <div class="shopping-cart row">
             <h2 class="text-center fs-2 mt-12 mb-13">Shopping Cart</h2>
             {% if cart_items %}
-    {% for item in cart_items %}
-        <form class="table-responsive-md pb-8 pb-lg-10 col-md-10" method="POST" action="{% url 'KaSheaCosmetics_cart:update-cart-quantity' %}">
-            {% csrf_token %}
-            <input type="hidden" name="product_key" value="{{ item.product_key }}">
-            <table class="table border">
-                <thead class="bg-body-secondary">
-                    <tr class="fs-15px letter-spacing-01 fw-semibold text-uppercase text-body-emphasis">
-                        <th scope="col" class="fw-semibold border-1 ps-11">products</th>
-                        <th scope="col" class="fw-semibold border-1">quantity</th>
-                        <th colspan="2" class="fw-semibold border-1">Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="position-relative">
-                        <th scope="row" class="pe-5 ps-8 py-7 shop-product">
-                            <div class="d-flex align-items-center">
-                                <div class="ms-6 me-7">
-                                    <img src="{{ item.image_url }}" data-src="{{ item.image_url }}" class="lazy-image" width="75" alt="{{ item.product_name }}">
+            {% for item in cart_items %}
+            <form class="table-responsive-md pb-8 pb-lg-10 col-md-10" method="POST"
+                action="{% url 'KaSheaCosmetics_cart:update-cart-quantity' %}">
+                {% csrf_token %}
+                <input type="hidden" name="product_key" value="{{ item.product_key }}">
+                <table class="table border">
+                    <thead class="bg-body-secondary">
+                        <tr class="fs-15px letter-spacing-01 fw-semibold text-uppercase text-body-emphasis">
+                            <th scope="col" class="fw-semibold border-1 ps-11">products</th>
+                            <th scope="col" class="fw-semibold border-1">quantity</th>
+                            <th colspan="2" class="fw-semibold border-1">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="position-relative">
+                            <th scope="row" class="pe-5 ps-8 py-7 shop-product">
+                                <div class="d-flex align-items-center">
+                                    <div class="ms-6 me-7">
+                                        <img src="{{ item.image_url }}" data-src="{{ item.image_url }}"
+                                            class="lazy-image" width="75" alt="{{ item.product_name }}">
+                                    </div>
+                                    <div>
+                                        <p class="fw-500 mb-1 text-body-emphasis">
+                                            {{ item.product_name }}
+                                        </p>
+                                        <p class="fw-500 mb-1 text-body-emphasis">
+                                            <strong>Size:</strong>
+                                            {{ item.size }}
+                                        </p>
+                                        <p class="fw-500 mb-1 text-body-emphasis">
+                                            <strong>Quantity:</strong>
+                                            {{ item.quantity }}
+                                        </p>
+                                        <p class="card-text">
+                                            <span class="fs-15px fw-bold text-body-emphasis"
+                                                id="item-price-{{ item.product_id }}">
+                                                £{{ item.price }}
+                                            </span>
+                                        </p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p class="fw-500 mb-1 text-body-emphasis">
-                                        {{ item.product_name }}
-                                    </p>
-                                    <p class="fw-500 mb-1 text-body-emphasis">
-                                        <strong>Size:</strong>
-                                        {{ item.size }}
-                                    </p>
-                                    <p class="fw-500 mb-1 text-body-emphasis">
-                                        <strong>Quantity:</strong>
-                                        {{ item.quantity }}
-                                    </p>
-                                    <p class="card-text">
-                                        <span class="fs-15px fw-bold text-body-emphasis" id="item-price-{{ item.product_id }}">
-                                            £{{ item.price }}
-                                        </span>
-                                    </p>
+                            </th>
+                            <td class="align-middle">
+                                <div class="input-group position-relative shop-quantity">
+                                    <a href="#" class="shop-down position-absolute z-index-2">
+                                        <i class="far fa-minus"></i>
+                                    </a>
+                                    <input class="form-control form-control-sm px-10 py-4 fs-6 text-center border-0"
+                                        type="number" name="quantity" value="{{ item.quantity }}" min="1">
+                                    <a href="#" class="shop-up position-absolute z-index-2">
+                                        <i class="far fa-plus"></i>
+                                    </a>
+                                    <button type="submit">Update</button>
                                 </div>
-                            </div>
-                        </th>
-                        <td class="align-middle">
-                            <div class="input-group position-relative shop-quantity">
-                                <a href="#" class="shop-down position-absolute z-index-2">
-                                    <i class="far fa-minus"></i>
-                                </a>
-                                <input class="form-control form-control-sm px-10 py-4 fs-6 text-center border-0" type="number" name="quantity" value="{{ item.quantity }}" min="1">
-                                <a href="#" class="shop-up position-absolute z-index-2">
-                                    <i class="far fa-plus"></i>
-                                </a>
-                                <button type="submit">Update</button>
-                            </div>
-                        </td>
-                        <td class="align-middle">
-                            <p class="mb-0 text-body-emphasis fw-bold mr-xl-11">
-                                £{{ item.price }}
-                            </p>
-                        </td>
-                       
-                    </tr>
-                </tbody>
-            </table>
-            
-        </form>
+                            </td>
+                            <td class="align-middle">
+                                <p class="mb-0 text-body-emphasis fw-bold mr-xl-11">
+                                    £{{ item.price }}
+                                </p>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+
+            </form>
             <div class="col-md-2">
-                <form method="POST" 
-                action="{% url 'KaSheaCosmetics_cart:delete-from-cart' %}">
+                <form method="POST" action="{% url 'KaSheaCosmetics_cart:delete-from-cart' %}">
                     {% csrf_token %}
                     <input type="hidden" name="product_key" value="{{ item.product_key }}">
                     <button type="submit" class="d-block">
@@ -96,10 +99,10 @@
                     </button>
                 </form>
             </div>
-        
-    {% endfor %}
-    <p><strong>Total: £<span id="cart-total">{{ subtotal|floatformat:2 }}</span></strong></p>
-{% endif %}
+
+            {% endfor %}
+            <p><strong>Total: £<span id="cart-total">{{ subtotal|floatformat:2 }}</span></strong></p>
+            {% endif %}
 
             <div class="row pt-8 pt-lg-11 pb-16 pb-lg-18">
                 <div class="col-lg-4 pt-2">
@@ -116,10 +119,11 @@
                     <h4 class="fs-24 mb-6">Shipping Caculator</h4>
                     <p class="mb-7">Enter your town/city to calculate shipping cost.</p>
                     <form action="{% url 'KaSheaCosmetics_cart:shopping-cart' %}" method="GET">
-                       
-                       
-                        <input type="text" value="{{ shipping_city }}"  class="form-control mb-7 id="shipping_city" name="shipping_city" placeholder="State / County" required>
-                      
+
+
+                        <input type="text" value="{{ shipping_city }}" class="form-control mb-7 id=" shipping_city"
+                            name="shipping_city" placeholder="State / County" required>
+
                         <button type="submit" class="btn btn-dark btn-hover-bg-primary btn-hover-border-primary">
                             Update total
                         </button>
@@ -141,7 +145,7 @@
                                     £{{ shipping_cost|floatformat:2 }}
                                     {% endif %}
                                     {% if not shipping_city %}
-                                        £{{ default_shipping|floatformat:2 }}
+                                    £{{ default_shipping|floatformat:2 }}
                                     {% endif %}
                                 </span>
                             </div>
