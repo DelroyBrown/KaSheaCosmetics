@@ -155,11 +155,10 @@
                                 <span class="text-secondary text-body-emphasis">Total price:</span>
                                 <span class="d-block ml-auto text-body-emphasis fs-4 fw-bold">£{{ total }}</span>
                             </div>
-                            <a id="checkout-button" href="javascript:void()"
-                                class="btn w-100 btn-dark btn-hover-bg-primary btn-hover-border-primary"
-                                title="Check Out">
+                            <button id="checkout-button"
+                                class="btn w-100 btn-dark btn-hover-bg-primary btn-hover-border-primary">
                                 Check Out
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -1735,7 +1734,6 @@
 
 <script src="https://js.stripe.com/v3/"></script>
 <script>
-<script>
     var stripe = Stripe("{{ STRIPE_PUBLIC_KEY }}");
 
     document.getElementById("checkout-button").addEventListener("click", function () {
@@ -1745,19 +1743,24 @@
                 "X-CSRFToken": "{{ csrf_token }}"
             },
         })
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (sessionId) {
-            return stripe.redirectToCheckout({ sessionId: sessionId.id });
-        })
-        .then(function (result) {
-            if (result.error) {
-                alert(result.error.message);
-            }
-        });
+            .then(function (response) {
+                console.log("Response received:", response);
+                return response.json();
+            })
+            .then(function (sessionId) {
+                console.log("Session ID received:", sessionId.id);
+                return stripe.redirectToCheckout({ sessionId: sessionId.id });
+            })
+            .then(function (result) {
+                if (result.error) {
+                    alert(result.error.message);
+                }
+            })
+            .catch(function (error) {
+                console.error("Error creating checkout session:", error);
+            });
+
     });
-</script>
 </script>
 
 {% endblock %}

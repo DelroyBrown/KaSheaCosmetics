@@ -1,5 +1,6 @@
 # KaSheaCosmetics_cart\views.py
 from decimal import Decimal
+from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from KaSheaCosmetics_cart.models import ShippingLocation
@@ -97,7 +98,8 @@ def shopping_cart(request):
             "shipping_city": shipping_city,
             "default_shipping": (
                 default_shipping.cost if default_shipping else None
-            ),  # Pass default shipping cost, if available
+            ),
+            'STRIPE_PUBLIC_KEY': settings.STRIPE_PUBLIC_KEY
         },
     )
 

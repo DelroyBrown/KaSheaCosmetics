@@ -22,8 +22,8 @@ def create_checkout_session(request):
             {
                 "price_data": {
                     "currency": "gbp",
-                    "prodict_data": {
-                        "name": product_name,
+                    "product_data": {
+                        "name": product.name,
                     },
                     "unit_amount": int(product.price * 100),
                 },
