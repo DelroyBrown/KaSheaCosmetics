@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "KaSheaCosmetics_products",
     "KaSheaCosmetics_cart",
     "KaSheaCosmetics_checkout",
+    "KaSheaCosmetics_orders",
     "KaSheaCosmetics_subscriptions",
 ]
 

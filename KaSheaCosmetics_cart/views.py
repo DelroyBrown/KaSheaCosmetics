@@ -86,6 +86,9 @@ def shopping_cart(request):
     # Add shipping cost to the total
     total += shipping_cost
 
+    # Store the shipping cost in the session to pass to Stripe during checkout
+    request.session["shipping_cost"] = float(shipping_cost)
+
     # Pass the subtotal, total, and shipping cost to the template
     return render(
         request,
@@ -96,10 +99,8 @@ def shopping_cart(request):
             "subtotal": round(subtotal, 2),
             "shipping_cost": round(shipping_cost, 2),
             "shipping_city": shipping_city,
-            "default_shipping": (
-                default_shipping.cost if default_shipping else None
-            ),
-            'STRIPE_PUBLIC_KEY': settings.STRIPE_PUBLIC_KEY
+            "default_shipping": (default_shipping.cost if default_shipping else None),
+            "STRIPE_PUBLIC_KEY": settings.STRIPE_PUBLIC_KEY,
         },
     )
 

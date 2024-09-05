@@ -13,6 +13,7 @@ urlpatterns = [
     path("", include("KaSheaCosmetics_cart.urls")),
     path("", include("KaSheaCosmetics_subscriptions.urls")),
     path("", include("KaSheaCosmetics_checkout.urls")),
+    path("orders/", include("KaSheaCosmetics_orders.urls")),
 ]
 
 if settings.DEBUG:
