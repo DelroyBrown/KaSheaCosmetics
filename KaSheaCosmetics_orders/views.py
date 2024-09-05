@@ -1,5 +1,6 @@
 # KaSheaCosmetics_orders\views.py
 import stripe
+import logging
 from django.conf import settings
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -20,10 +21,10 @@ def stripe_webhook(request):
             payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
         )
     except ValueError as e:
-        # Invalid payload
+        logger.error(f"Invalid payload: {e}")
         return HttpResponse(status=400)
     except stripe.error.SignatureVerificationError as e:
-        # Invalid signature
+        logger.error(f"Invalid signature: {e}")
         return HttpResponse(status=400)
 
     # Handle the checkout.session.completed event
@@ -31,8 +32,8 @@ def stripe_webhook(request):
         session = event["data"]["object"]
 
         # Get session details
-        customer_name = session.get("shipping", {}).get("name")
-        email = session.get("customer_details", {}).get("email")
+        customer_name = session.get("shipping", {}).get("name", "")
+        email = session.get("customer_details", {}).get("email", "")
         shipping_address = (
             session.get("shipping", {}).get("address", {}).get("line1", "")
         )
@@ -46,28 +47,41 @@ def stripe_webhook(request):
         amount = session.get("amount_total", 0) / 100  # Stripe sends amounts in cents
         payment_intent_id = session.get("payment_intent", "")
 
-        # Create the order in your database
-        order = Order.objects.create(
-            customer_name=customer_name,
-            email=email,
-            shipping_address=shipping_address,
-            shipping_city=shipping_city,
-            shipping_postcode=shipping_postcode,
-            shipping_country=shipping_country,
-            stripe_payment_intent_id=payment_intent_id,
-            amount=amount,
-            status="Paid",
-        )
+        logger.info(f"Processing order for {customer_name} - {email}")
 
-        # Assuming you passed the cart data via metadata during session creation
-        # Here we retrieve the line items from the Stripe session
-        line_items = stripe.checkout.Session.list_line_items(session["id"])
-        for item in line_items["data"]:
-            product_id = item["price"]["product_data"]["metadata"]["product_id"]
-            product = Product.objects.get(id=product_id)
-            quantity = item["quantity"]
+        try:
+            # Create the order in your database
+            order = Order.objects.create(
+                customer_name=customer_name,
+                email=email,
+                shipping_address=shipping_address,
+                shipping_city=shipping_city,
+                shipping_postcode=shipping_postcode,
+                shipping_country=shipping_country,
+                stripe_payment_intent_id=payment_intent_id,
+                amount=amount,
+                status="Paid",
+            )
+            logger.info(f"Order created successfully with ID: {order.id}")
+        except Exception as e:
+            logger.error(f"Error creating order: {e}")
+            return HttpResponse(status=500)
 
-            # Save each product in the order
-            OrderItem.objects.create(order=order, product=product, quantity=quantity)
+        # Get line items and create OrderItems
+        try:
+            line_items = stripe.checkout.Session.list_line_items(session["id"])
+            for item in line_items["data"]:
+                product_id = item["price"]["product_data"]["metadata"]["product_id"]
+                product = Product.objects.get(id=product_id)
+                quantity = item["quantity"]
+
+                # Save each product in the order
+                OrderItem.objects.create(
+                    order=order, product=product, quantity=quantity
+                )
+                logger.info(f"OrderItem created: {product.name} x {quantity}")
+        except Exception as e:
+            logger.error(f"Error creating order items: {e}")
+            return HttpResponse(status=500)
 
     return HttpResponse(status=200)

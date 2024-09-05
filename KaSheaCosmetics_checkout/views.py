@@ -36,13 +36,16 @@ def create_checkout_session(request):
         # Stripe expects the price in cents (multiply by 100)
         unit_amount = int(price_per_item * 100)
 
-        # Create line item for Stripe Checkout
+        # Create line item for Stripe Checkout with product_id in metadata
         line_items.append(
             {
                 "price_data": {
                     "currency": "gbp",
                     "product_data": {
                         "name": product.name,
+                        "metadata": {
+                            "product_id": product.id,  # Add product_id to metadata
+                        },
                     },
                     "unit_amount": unit_amount,  # Use the discounted per item price
                 },
@@ -91,22 +94,22 @@ def checkout_success(request):
     return render(request, "checkout/checkout_success.html")
 
 
-@csrf_exempt
-def stripe_webhook(request):
-    payload = request.body
-    sig_header = request.META["HTTP_STRIPE_SIGNATURE"]
-    event = None
+# @csrf_exempt
+# def stripe_webhook(request):
+#     payload = request.body
+#     sig_header = request.META["HTTP_STRIPE_SIGNATURE"]
+#     event = None
 
-    try:
-        event = stripe.Webhok.construct_event(
-            payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
-        )
-    except ValueError as e:
-        return HttpResponse(status=400)
-    except stripe.error.SignatureVerificationError as e:
-        return HttpResponse(status=400)
+#     try:
+#         event = stripe.Webhook.construct_event(
+#             payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
+#         )
+#     except ValueError as e:
+#         return HttpResponse(status=400)
+#     except stripe.error.SignatureVerificationError as e:
+#         return HttpResponse(status=400)
 
-    if event["type"] == "checkout.session.completed":
-        session = event["data"]["object"]
+#     if event["type"] == "checkout.session.completed":
+#         session = event["data"]["object"]
 
-    return HttpResponse(status=200)
+#     return HttpResponse(status=200)

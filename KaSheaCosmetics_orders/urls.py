@@ -8,6 +8,8 @@ app_name = "KaSheaCosmetics_orders"
 
 urlpatterns = [
     path("webhook/stripe/", stripe_webhook, name="stripe-webhook"),
+    # path("webhook/", views.stripe_webhook, name="stripe_webhook"),
+
 ]
 
 if settings.DEBUG:
