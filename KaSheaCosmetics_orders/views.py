@@ -1,6 +1,5 @@
 # KaSheaCosmetics_orders\views.py
 import stripe
-import logging
 from django.conf import settings
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -21,10 +20,8 @@ def stripe_webhook(request):
             payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
         )
     except ValueError as e:
-        logger.error(f"Invalid payload: {e}")
         return HttpResponse(status=400)
     except stripe.error.SignatureVerificationError as e:
-        logger.error(f"Invalid signature: {e}")
         return HttpResponse(status=400)
 
     # Handle the checkout.session.completed event
@@ -62,9 +59,7 @@ def stripe_webhook(request):
                 amount=amount,
                 status="Paid",
             )
-            logger.info(f"Order created successfully with ID: {order.id}")
         except Exception as e:
-            logger.error(f"Error creating order: {e}")
             return HttpResponse(status=500)
 
         # Get line items and create OrderItems
@@ -79,9 +74,7 @@ def stripe_webhook(request):
                 OrderItem.objects.create(
                     order=order, product=product, quantity=quantity
                 )
-                logger.info(f"OrderItem created: {product.name} x {quantity}")
         except Exception as e:
-            logger.error(f"Error creating order items: {e}")
             return HttpResponse(status=500)
 
     return HttpResponse(status=200)
