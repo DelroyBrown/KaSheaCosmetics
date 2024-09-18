@@ -36,18 +36,16 @@ def create_checkout_session(request):
         # Stripe expects the price in cents (multiply by 100)
         unit_amount = int(price_per_item * 100)
 
-        # Create line item for Stripe Checkout with product_id in metadata
+        # Create line item for Stripe Checkout with product_id in description
         line_items.append(
             {
                 "price_data": {
                     "currency": "gbp",
                     "product_data": {
                         "name": product.name,
-                        "metadata": {
-                            "product_id": product.id,  # Add product_id to metadata
-                        },
+                        "description": f"Product ID: {product.id}",
                     },
-                    "unit_amount": unit_amount,  # Use the discounted per item price
+                    "unit_amount": unit_amount,
                 },
                 "quantity": item["quantity"],
             }
@@ -81,9 +79,7 @@ def create_checkout_session(request):
         ),
         billing_address_collection="required",  # Collect billing address
         shipping_address_collection={
-            "allowed_countries": [
-                "GB"
-            ],  # Collect shipping address for specific countries
+            "allowed_countries": ["GB"],
         },
     )
 
@@ -91,4 +87,8 @@ def create_checkout_session(request):
 
 
 def checkout_success(request):
+    if CART_SESSION_KEY in request.session:
+        del request.session[CART_SESSION_KEY]
+        request.session.modified = True
+
     return render(request, "checkout/checkout_success.html")
