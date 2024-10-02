@@ -2,14 +2,26 @@
 from decimal import Decimal
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product, ProductSize, ProductReview
+from .models import Product, ProductSize, ProductReview, ProductCategory
 from .forms import ProductReviewForm
 from KaSheaCosmetics_subscriptions.models import CustomerEmails
 
 
 def product_list(request):
     products = Product.objects.all()
-    return render(request, "products/products_list.html", {"products": products})
+    product_categories = ProductCategory.objects.all()
+
+    for category in product_categories:
+        category.products = Product.objects.filter(category=category)
+
+    return render(
+        request,
+        "products/products_list.html",
+        {
+            "products": products,
+            "product_categories": product_categories,
+        },
+    )
 
 
 def product_detail(request, product_id):
@@ -28,7 +40,7 @@ def product_detail(request, product_id):
             product_review.product = product
             product_review.save()
 
-            if product_review.email:  
+            if product_review.email:
                 CustomerEmails.objects.get_or_create(
                     product=product,
                     email=product_review.email,

@@ -4,158 +4,45 @@
         <aside class="primary-sidebar pe-xl-9 me-xl-2 mt-12 pt-2 mt-lg-0 pt-lg-0">
             <div class="widget widget-product-category">
                 <h4 class="widget-title fs-5 mb-6">Category</h4>
-                
+                <!-- HERE LIES THE MAIN CATEGORIES -->
+                {% for product_cat in product_categories %}
                 <ul class="navbar-nav navbar-nav-cate" id="widget_product_category">
                     <li class="nav-item">
-                        <a href="#" title="Whipped Body Butters"
+                        <a href="#" title="{{ product_cat.category_name }}"
                             class="text-reset position-relative d-block text-decoration-none text-body-emphasis-hover d-flex align-items-center text-uppercase fs-14px fw-semibold letter-spacing-5">
                             <span class="text-hover-underline me-2">
-                                Whipped Body Butters
+                                {{ product_cat.category_name }}
                             </span>
-                            <span data-bs-toggle="collapse" data-bs-target="#cat_whipped-body-butters"
-                                class="caret flex-grow-1 d-flex align-items-center justify-content-end collapsed"><svg
-                                    class="icon">
+                            <span data-bs-toggle="collapse" data-bs-target="#cat_{{ product_cat.category_url }}"
+                                class="caret flex-grow-1 d-flex align-items-center justify-content-end collapsed">
+                                <svg class="icon">
                                     <use xlink:href="#icon-plus"></use>
-                                </svg></span> </a>
-                        <div id="cat_whipped-body-butters" class="collapse show" data-bs-parent="#widget_product_category">
+                                </svg>
+                            </span>
+                        </a>
+
+                        <div id="cat_{{ product_cat.category_url }}" class="collapse show"
+                            data-bs-parent="#widget_product_category">
                             <ul class="navbar-nav nav-submenu ps-8">
+                                {% for product in product_cat.products %}
                                 <li class="nav-item">
                                     <a class="text-reset position-relative d-block text-decoration-none text-body-emphasis-hover d-flex align-items-center"
                                         href="#">
                                         <span class="text-hover-underline">
-                                            Sweet Stuff
+                                            {{ product.name }}
                                         </span>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="text-reset position-relative d-block text-decoration-none text-body-emphasis-hover d-flex align-items-center"
-                                        href="#">
-                                        <span class="text-hover-underline">
-                                            Citrus Notes
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="text-reset position-relative d-block text-decoration-none text-body-emphasis-hover d-flex align-items-center"
-                                        href="#">
-                                        <span class="text-hover-underline">
-                                            Zen Butter
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="text-reset position-relative d-block text-decoration-none text-body-emphasis-hover d-flex align-items-center"
-                                        href="#">
-                                        <span class="text-hover-underline">
-                                            Naked
-                                        </span>
-                                    </a>
-                                </li>
-                                
+                                {% endfor %}
                             </ul>
                         </div>
                     </li>
                 </ul>
-                <ul class="navbar-nav navbar-nav-cate" id="widget_product_category_2">
-                    <li class="nav-item">
-                        <a href="#" title="Skin care"
-                            class="text-reset position-relative d-block text-decoration-none text-body-emphasis-hover d-flex align-items-center text-uppercase fs-14px fw-semibold letter-spacing-5">
-                            <span class="text-hover-underline me-2">
-                                Body Scrubs
-                            </span>
-                            <span data-bs-toggle="collapse" data-bs-target="#cat_body-scrubs"
-                                class="caret flex-grow-1 d-flex align-items-center justify-content-end collapsed"><svg
-                                    class="icon">
-                                    <use xlink:href="#icon-plus"></use>
-                                </svg></span> </a>
-                        <div id="cat_body-scrubs" class="collapse show" data-bs-parent="#widget_product_category_2">
-                            <ul class="navbar-nav nav-submenu ps-8">
-                                <li class="nav-item">
-                                    <a class="text-reset position-relative d-block text-decoration-none text-body-emphasis-hover d-flex align-items-center"
-                                        href="#">
-                                        <span class="text-hover-underline">
-                                            Awaken
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="text-reset position-relative d-block text-decoration-none text-body-emphasis-hover d-flex align-items-center"
-                                        href="#">
-                                        <span class="text-hover-underline">
-                                            Unwind
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="text-reset position-relative d-block text-decoration-none text-body-emphasis-hover d-flex align-items-center"
-                                        href="#">
-                                        <span class="text-hover-underline">
-                                            Zen Night
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="text-reset position-relative d-block text-decoration-none text-body-emphasis-hover d-flex align-items-center"
-                                        href="#">
-                                        <span class="text-hover-underline">
-                                            Naked
-                                        </span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-                <ul class="navbar-nav navbar-nav-cate" id="widget_product_category_3">
-                    <li class="nav-item">
-                        <a href="#" title="Skin care"
-                            class="text-reset position-relative d-block text-decoration-none text-body-emphasis-hover d-flex align-items-center text-uppercase fs-14px fw-semibold letter-spacing-5">
-                            <span class="text-hover-underline me-2">
-                                Bath Salts
-                            </span>
-                            <span data-bs-toggle="collapse" data-bs-target="#cat_bath-salts"
-                                class="caret flex-grow-1 d-flex align-items-center justify-content-end collapsed"><svg
-                                    class="icon">
-                                    <use xlink:href="#icon-plus"></use>
-                                </svg></span> </a>
-                        <div id="cat_bath-salts" class="collapse show" data-bs-parent="#widget_product_category_3">
-                            <ul class="navbar-nav nav-submenu ps-8">
-                                <li class="nav-item">
-                                    <a class="text-reset position-relative d-block text-decoration-none text-body-emphasis-hover d-flex align-items-center"
-                                        href="#">
-                                        <span class="text-hover-underline">
-                                            Awaken
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="text-reset position-relative d-block text-decoration-none text-body-emphasis-hover d-flex align-items-center"
-                                        href="#">
-                                        <span class="text-hover-underline">
-                                            Unwind
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="text-reset position-relative d-block text-decoration-none text-body-emphasis-hover d-flex align-items-center"
-                                        href="#">
-                                        <span class="text-hover-underline">
-                                            Muscle Soothe
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="text-reset position-relative d-block text-decoration-none text-body-emphasis-hover d-flex align-items-center"
-                                        href="#">
-                                        <span class="text-hover-underline">
-                                            Zen Night
-                                        </span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
+                {% endfor %}
+
+
+                <!-- HERE LIES THE MAIN CATEGORIES -->
+
 
             </div>
             <div class="widget widget-product-hightlight">
@@ -183,7 +70,7 @@
                     </li>
                 </ul>
             </div>
- 
+
             <div class="widget widget-product-size">
                 <h4 class="widget-title fs-5 mb-6">Size</h4>
                 <ul class="navbar-nav navbar-nav-cate" id="widget_product_size">
@@ -209,7 +96,7 @@
                     </li>
                 </ul>
             </div>
-         
+
             <div class="widget widget-tags">
                 <h4 class="widget-title fs-5 mb-6">Tags</h4>
                 <ul class="w-100 mt-n4 list-unstyled d-flex flex-wrap mb-0">

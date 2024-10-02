@@ -1,6 +1,7 @@
 # KaSheaCosmetics_products\models.py
 from decimal import Decimal
 from django.db import models
+from django.utils.text import slugify
 
 
 class ShippingOption(models.Model):
@@ -15,6 +16,12 @@ class ProductCategory(models.Model):
     category_name = models.CharField(
         max_length=100, blank=False, null=False, default=""
     )
+    category_url = models.SlugField(default="", max_length=100, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if not self.category_url:
+            self.category_url = slugify(self.category_name)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.category_name
@@ -92,4 +99,3 @@ class ProductReview(models.Model):
 
     def __str__(self):
         return f"Product review by {self.name} on {self.product.name}"
-

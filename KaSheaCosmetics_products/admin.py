@@ -34,6 +34,9 @@ class ProductAdmin(admin.ModelAdmin):
     ]  # Add the inline form for sizes
 
 
+
+
+
 admin.site.register(Ingredients)
 admin.site.register(ProductCategory)
 admin.site.register(ShippingOption)
