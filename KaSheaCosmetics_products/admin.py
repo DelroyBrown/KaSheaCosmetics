@@ -33,6 +33,31 @@ class ProductAdmin(admin.ModelAdmin):
         ProductIngredientInline,
     ]  # Add the inline form for sizes
 
+@admin.register(ProductReview)
+class ProductReviewAdmin(admin.ModelAdmin):
+    list_display = (
+        "approved",
+        "product",
+        "name",
+        "email",
+        "product_rating",
+        "review_title",
+        "review_content",
+        "image",
+        "created_at",
+    )
+    readonly_fields = [
+        "product",
+        "name",
+        "email",
+        "product_rating",
+        "review_title",
+        "review_content",
+        "image",
+        "created_at",
+    ]
+
+
 
 
 
@@ -41,4 +66,3 @@ admin.site.register(Ingredients)
 admin.site.register(ProductCategory)
 admin.site.register(ShippingOption)
 admin.site.register(ProductSize)
-admin.site.register(ProductReview)
