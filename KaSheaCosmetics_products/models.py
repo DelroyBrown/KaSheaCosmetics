@@ -1,4 +1,5 @@
 # KaSheaCosmetics_products\models.py
+import stripe
 from decimal import Decimal
 from django.db import models
 from django.utils.text import slugify
@@ -70,6 +71,9 @@ class Product(models.Model):
     product_details = models.TextField(blank=True, null=True, default="")
     how_to_use = models.TextField(blank=True, null=True, default="")
     ingredients = models.ManyToManyField(Ingredients, blank=True)
+    stripe_product_id = models.CharField(
+        max_length=255, blank=True, null=True
+    )  # New field for Stripe product ID
 
     def get_shipping_cost(self):
         if self.shipping_option:
@@ -80,6 +84,40 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        # If the product is new and does not have a Stripe product ID, create one in Stripe
+        if not self.stripe_product_id:
+            stripe_product = create_stripe_product(self)
+            if stripe_product:
+                self.stripe_product_id = stripe_product.id
+
+        super().save(*args, **kwargs)
+
+
+def create_stripe_product(product):
+    try:
+        # Create the product in Stripe
+        stripe_product = stripe.Product.create(
+            name=product.name,
+            description=product.description,
+        )
+
+        # Create the price for the product in Stripe
+        stripe_price = stripe.Price.create(
+            product=stripe_product.id,
+            unit_amount=int(product.price * 100),  # Convert to cents
+            currency="gbp",
+        )
+
+        # Store the Stripe product ID in the product model
+        product.stripe_product_id = stripe_product.id
+        product.save()
+
+        return stripe_product
+    except Exception as e:
+        print(f"Error creating product or price in Stripe: {e}")
+        return None
 
 
 class ProductReview(models.Model):

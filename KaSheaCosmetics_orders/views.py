@@ -22,18 +22,17 @@ def stripe_webhook(request):
             payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
         )
     except ValueError as e:
-        logger.exception("Invalid payload")
+        print("Invalid payload")
         return HttpResponse(status=400)
     except stripe.error.SignatureVerificationError as e:
-        logger.exception("Invalid signature")
+        print("Invalid signature")
         return HttpResponse(status=400)
 
     # Handle the checkout.session.completed event
     if event["type"] == "checkout.session.completed":
         session = event["data"]["object"]
-        logger.debug(f"Stripe session: {session}")
+        print(f"Stripe session: {session}")
 
-        # Get session details
         customer_name = session.get("shipping_details", {}).get("name", "")
         email = session.get("customer_details", {}).get("email", "")
         shipping_address = (
@@ -50,13 +49,11 @@ def stripe_webhook(request):
         shipping_country = (
             session.get("shipping_details", {}).get("address", {}).get("country", "")
         )
-        amount = session.get("amount_total", 0) / 100  # Stripe sends amounts in cents
+        amount = session.get("amount_total", 0) / 100
         payment_intent_id = session.get("payment_intent", "")
-
-        logger.info(f"Processing order for {customer_name} - {email}")
+        session_id = session.get("id")
 
         try:
-            # Create the order in your database
             order = Order.objects.create(
                 customer_name=customer_name,
                 email=email,
@@ -68,37 +65,40 @@ def stripe_webhook(request):
                 amount=amount,
                 status="Paid",
             )
-        except Exception as e:
-            logger.exception("Error creating order: %s", e)
-            return HttpResponse(status=500)
+            print(f"Order created with ID: {order.id}")
 
-        # Get line items and create OrderItems
-        try:
-            line_items = stripe.checkout.Session.list_line_items(session["id"])
-            logger.debug(f"Line items: {line_items}")
+            # Retrieve line items using the correct session ID
+            line_items = stripe.checkout.Session.list_line_items(session_id)
+            print(f"Line items: {line_items}")
 
-            for item in line_items["data"]:
-                description = item.get("description", "")
-                logger.debug(f"Line item description: {description}")
+            # Retrieve product IDs from metadata
+            product_ids = session.get("metadata", {}).get("product_ids", "").split(",")
 
-                # Extract product_id from description
-                product_id = None
-                if description and "Product ID:" in description:
-                    product_id = description.split("Product ID:")[1].strip()
-
-                if not product_id:
-                    logger.error("Product ID not found in line item description.")
-                    continue
-
-                product = Product.objects.get(id=product_id)
+            # Process each line item to create OrderItem entries
+            for idx, item in enumerate(line_items["data"]):
+                product_id = product_ids[idx] if idx < len(product_ids) else None
                 quantity = item["quantity"]
 
-                # Save each product in the order
-                OrderItem.objects.create(
-                    order=order, product=product, quantity=quantity
+                print(
+                    f"Creating OrderItem for Product ID: {product_id}, Quantity: {quantity}"
                 )
+
+                if not product_id:
+                    print("Product ID not found in session metadata.")
+                    continue
+
+                try:
+                    product = Product.objects.get(id=product_id)
+                    OrderItem.objects.create(
+                        order=order,
+                        product=product,
+                        quantity=quantity,
+                    )
+                except Product.DoesNotExist:
+                    print(f"Product with ID {product_id} does not exist.")
+
         except Exception as e:
-            logger.exception("Error creating order items: %s", e)
+            print(f"Error creating order or order items: {e}")
             return HttpResponse(status=500)
 
     return HttpResponse(status=200)

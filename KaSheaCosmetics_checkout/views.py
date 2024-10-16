@@ -17,6 +17,7 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 def create_checkout_session(request):
     cart = request.session.get(CART_SESSION_KEY, {})
     line_items = []
+    product_ids = []  # To keep track of the product IDs
 
     # Retrieve the dynamic shipping cost from session
     shipping_cost = request.session.get("shipping_cost", 0)
@@ -36,7 +37,10 @@ def create_checkout_session(request):
         # Stripe expects the price in cents (multiply by 100)
         unit_amount = int(price_per_item * 100)
 
-        # Create line item for Stripe Checkout with product_id in description
+        # Append the product ID for later use in the webhook
+        product_ids.append(str(product.id))
+
+        # Create line item for Stripe Checkout without metadata
         line_items.append(
             {
                 "price_data": {
@@ -60,13 +64,16 @@ def create_checkout_session(request):
                     "product_data": {
                         "name": "Shipping",
                     },
-                    "unit_amount": int(shipping_cost * 100),  # Shipping cost in cents
+                    "unit_amount": int(shipping_cost * 100),
                 },
-                "quantity": 1,  # Shipping is just a single line item
+                "quantity": 1,
             }
         )
 
-    # Enable address collection in Stripe Checkout
+    # Store product IDs as metadata for the session, concatenated as a comma-separated string
+    session_metadata = {"product_ids": ",".join(product_ids)}
+
+    # Create the Stripe Checkout session with metadata at the session level
     session = stripe.checkout.Session.create(
         payment_method_types=["card"],
         line_items=line_items,
@@ -77,10 +84,11 @@ def create_checkout_session(request):
         cancel_url=request.build_absolute_uri(
             reverse("KaSheaCosmetics_cart:shopping-cart")
         ),
-        billing_address_collection="required",  # Collect billing address
+        billing_address_collection="required",
         shipping_address_collection={
             "allowed_countries": ["GB"],
         },
+        metadata=session_metadata,  # Attach metadata at the session level
     )
 
     return JsonResponse({"id": session.id})
