@@ -11,8 +11,8 @@ from .models import (
 
 
 class ProductSizeInline(admin.StackedInline):
-    model = Product.product_sizes.through  # Through model for the ManyToMany field
-    extra = 1  # This will show 1 empty size form by default
+    model = Product.product_sizes.through
+    extra = 1
 
 
 class ProductIngredientInline(admin.StackedInline):

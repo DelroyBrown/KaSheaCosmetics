@@ -32,7 +32,7 @@ class ProductSize(models.Model):
     size_name = models.CharField(blank=False, null=False, max_length=20, default="")
     added_percentage = models.IntegerField(blank=False, null=False, default="")
 
-    def __srt__(self):
+    def __str__(self):
         return self.size_name
 
 
@@ -71,9 +71,10 @@ class Product(models.Model):
     product_details = models.TextField(blank=True, null=True, default="")
     how_to_use = models.TextField(blank=True, null=True, default="")
     ingredients = models.ManyToManyField(Ingredients, blank=True)
-    stripe_product_id = models.CharField(
-        max_length=255, blank=True, null=True
-    )  # New field for Stripe product ID
+    stripe_product_id = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
 
     def get_shipping_cost(self):
         if self.shipping_option:
@@ -82,11 +83,7 @@ class Product(models.Model):
         default_shipping = DefaultShippingCost.objects.first()
         return default_shipping.cost if default_shipping else Decimal(0)
 
-    def __str__(self):
-        return self.name
-
     def save(self, *args, **kwargs):
-        # If the product is new and does not have a Stripe product ID, create one in Stripe
         if not self.stripe_product_id:
             stripe_product = create_stripe_product(self)
             if stripe_product:
