@@ -17,7 +17,8 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 def create_checkout_session(request):
     cart = request.session.get(CART_SESSION_KEY, {})
     line_items = []
-    product_ids = []  # To keep track of the product IDs
+    product_ids = []
+    size_ids = []  # To store size IDs
 
     # Retrieve the dynamic shipping cost from session
     shipping_cost = request.session.get("shipping_cost", 0)
@@ -26,21 +27,18 @@ def create_checkout_session(request):
     for product_key, item in cart.items():
         product = Product.objects.get(id=item["product_id"])
 
-        # Calculate the discounted price using the existing logic
+        # Calculate the discounted price
         discounted_total_price = calculate_discounted_price(
             product, item["quantity"], item["size_percentage"]
         )
-
-        # Calculate price per item (divide the total discounted price by the quantity)
         price_per_item = discounted_total_price / item["quantity"]
-
-        # Stripe expects the price in cents (multiply by 100)
         unit_amount = int(price_per_item * 100)
 
-        # Append the product ID for later use in the webhook
+        # Add product and size IDs for metadata
         product_ids.append(str(product.id))
+        size_ids.append(str(item.get("size_id", "")))  # Capture size_id if available
 
-        # Create line item for Stripe Checkout without metadata
+        # Create line item for Stripe Checkout
         line_items.append(
             {
                 "price_data": {
@@ -55,25 +53,26 @@ def create_checkout_session(request):
             }
         )
 
-    # Add shipping as a separate line item in Stripe Checkout
+    # Add shipping as a separate line item
     if shipping_cost > 0:
         line_items.append(
             {
                 "price_data": {
                     "currency": "gbp",
-                    "product_data": {
-                        "name": "Shipping",
-                    },
+                    "product_data": {"name": "Shipping"},
                     "unit_amount": int(shipping_cost * 100),
                 },
                 "quantity": 1,
             }
         )
 
-    # Store product IDs as metadata for the session, concatenated as a comma-separated string
-    session_metadata = {"product_ids": ",".join(product_ids)}
+    # Store product and size IDs as comma-separated metadata
+    session_metadata = {
+        "product_ids": ",".join(product_ids),
+        "size_ids": ",".join(size_ids),
+    }
 
-    # Create the Stripe Checkout session with metadata at the session level
+    # Create the Stripe Checkout session
     session = stripe.checkout.Session.create(
         payment_method_types=["card"],
         line_items=line_items,
@@ -85,10 +84,8 @@ def create_checkout_session(request):
             reverse("KaSheaCosmetics_cart:shopping-cart")
         ),
         billing_address_collection="required",
-        shipping_address_collection={
-            "allowed_countries": ["GB"],
-        },
-        metadata=session_metadata,  # Attach metadata at the session level
+        shipping_address_collection={"allowed_countries": ["GB"]},
+        metadata=session_metadata,  # Attach metadata
     )
 
     return JsonResponse({"id": session.id})

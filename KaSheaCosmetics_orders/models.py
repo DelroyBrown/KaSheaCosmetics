@@ -1,6 +1,6 @@
 # KaSheaCosmetics_orders\models.py
 from django.db import models
-from KaSheaCosmetics_products.models import Product
+from KaSheaCosmetics_products.models import Product, ProductSize
 
 
 class Order(models.Model):
@@ -23,6 +23,9 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="items")
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
     quantity = models.PositiveIntegerField()
+    size = models.ForeignKey(
+        ProductSize, on_delete=models.PROTECT, null=True, blank=True
+    )
 
     def __str__(self):
-        return f"{self.product.name} x {self.quantity}"
+        return f"{self.product.name} ({self.size.size_name if self.size else 'Default'}) x {self.quantity}"
