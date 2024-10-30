@@ -85,13 +85,14 @@
                                             class="img-fluid lazy-image w-100" alt="Shield Conditioner" width="330"
                                             height="440">
                                     </a>
-                                    <div class="position-absolute product-flash z-index-2 "><span
-                                            class="badge badge-product-flash on-sale bg-primary">-25%</span></div>
+                                    <div class="position-absolute product-flash z-index-2 ">
+                                        <!-- <span class="badge badge-product-flash on-sale bg-primary">-25%</span> -->
+                                        </div>
                                 </figure>
                                 <div class="card-body flex-md-grow-1 p-0 pt-md-9">
                                     <span
                                         class="d-flex align-items-center price text-body-emphasis fw-bold mb-3 fs-18px">
-                                        <del class=" text-body fw-500 me-4 fs-15px">$40.00</del>
+                                        
                                         <ins class="text-decoration-none">
                                             £{{ product.price}}
                                         </ins>
@@ -159,7 +160,9 @@
                                                     </svg>
                                                 </span>
                                             </div>
-                                        </div><span class="reviews ms-4 pt-3 fs-14px">2947 reviews</span>
+                                        </div><span class="reviews ms-4 pt-3 fs-14px">
+                                            {{ product.get_review_count}}
+                                        </span>
                                     </div>
                                     <p class="product-desc mb-10">
                                         {{ product.description }}

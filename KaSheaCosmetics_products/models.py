@@ -108,6 +108,10 @@ class Product(models.Model):
         default_shipping = DefaultShippingCost.objects.first()
         return default_shipping.cost if default_shipping else Decimal(0)
 
+    def get_review_count(self):
+        # This counts only the approved views for each product
+        return self.product_reviews.filter(approved=True).count()
+
     # Override the save method to create a Stripe product if it doesn't already exist
     def save(self, *args, **kwargs):
         if not self.stripe_product_id:  # If no Stripe ID, create one
