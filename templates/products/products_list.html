@@ -104,8 +104,9 @@
                                     <h4
                                         class="product-title card-title text-primary-hover text-body-emphasis fs-4 fw-semibold mb-5">
                                         <a class="text-decoration-none text-reset"
-                                            href="../shop/product-details-v1.html">
-                                            {{ product.name }}
+                                            href="{% url 'KaSheaCosmetics_products:product_detail' product.id %}">
+                                            {{ product.name }} / 
+                                            <mark style="background-color: #FE9E7D;">{{ product.category }}</mark>
                                         </a>
                                     </h4>
                                     <div class="d-flex align-items-center fs-12px mb-5">

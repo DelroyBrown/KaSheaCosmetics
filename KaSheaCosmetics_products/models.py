@@ -94,6 +94,7 @@ class Product(models.Model):
     ingredients = models.ManyToManyField(Ingredients, blank=True)
     # Optional field to store the Stripe product ID for payment integration
     stripe_product_id = models.CharField(max_length=255, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True) 
 
     # String representation of the model, returns the product's name
     def __str__(self):

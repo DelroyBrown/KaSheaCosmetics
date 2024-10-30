@@ -9,7 +9,7 @@ from KaSheaCosmetics_subscriptions.models import CustomerEmails
 
 def product_list(request):
     # Grab all the products, because that’s what we’re here for
-    products = Product.objects.all()
+    products = Product.objects.all().order_by('-created_at')
 
     # Fetch all the product categories while we’re at it
     product_categories = ProductCategory.objects.all()
