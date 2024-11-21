@@ -48,6 +48,10 @@ class Ingredients(models.Model):
         max_length=100, blank=True, null=True, default=""
     )
 
+    class Meta:
+        verbose_name = "Ingredients"
+        verbose_name_plural = "Ingredients"
+
     def __str__(self):
         return self.ingredient_name
 
@@ -63,20 +67,20 @@ class Product(models.Model):
     # Name of the product, this is required and can't be blank
     name = models.CharField(max_length=200, blank=False, null=False, default="")
     # Description of the product, also required and can't be blank
-    description = models.TextField(blank=False, null=False, default="")
+    description = models.TextField(blank=False, null=False, default="", help_text="Tell your customers what makes this product awesome! Share its benefits, key ingredients, and how to use it. Keep it simple and clear so they know why they’ll love it.")
     # Optional size field for the product (e.g., "Small", "Large"), defaults to blank
-    size = models.CharField(max_length=20, blank=True, null=True, default="")
+    size = models.CharField(max_length=20, blank=True, null=True, default="", help_text="IGNORE THIS MY DEAR! It'll prepopulate itself.")
     # Main product image, this one is required
-    image_1 = models.ImageField(upload_to="product-images", blank=False, null=False)
+    image_1 = models.ImageField(upload_to="product-images", blank=False, null=False, help_text="This will be your main image.")
     # Optional second product image
     image_2 = models.ImageField(upload_to="product-images", blank=True, null=True)
     # Optional third product image
     image_3 = models.ImageField(upload_to="product-images", blank=True, null=True)
     # Price of the product, max 10 digits, 2 decimal places for pennies
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2, help_text="Enter the price for the SMALLEST size")
     # Category of the product, required, ties to the ProductCategory model
     category = models.ForeignKey(
-        ProductCategory, blank=False, null=False, default="", on_delete=models.CASCADE
+        ProductCategory, blank=False, null=False, default="", on_delete=models.CASCADE, help_text="Pick a category from the dropdown, or, add one using the + button."
     )
     # Many-to-many relationship for product sizes, can't be blank
     product_sizes = models.ManyToManyField(ProductSize, blank=False)
