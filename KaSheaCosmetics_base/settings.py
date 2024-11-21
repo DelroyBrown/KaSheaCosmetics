@@ -14,6 +14,12 @@ DEBUG = os.getenv("DEBUG")
 
 ALLOWED_HOSTS = []
 
+# Import admin settings
+try:
+    from .admin_settings import *
+except ImportError as e:
+    raise ImportError(f"Could not import admin settings: {e}")
+
 
 INSTALLED_APPS = [
     # New Admin
