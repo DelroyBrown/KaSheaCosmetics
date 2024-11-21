@@ -1,15 +1,16 @@
 # KaSheaCosmetics_orders\admin.py
 from django.contrib import admin
 from .models import Order, OrderItem
+from unfold.admin import TabularInline, ModelAdmin
 
 
-class OrderItemInline(admin.TabularInline):
+class OrderItemInline(TabularInline):
     model = OrderItem
     extra = 0
     
 
 
-class OrderAdmin(admin.ModelAdmin):
+class OrderAdmin(ModelAdmin):
     list_display = [
         "id",
         "customer_name",
