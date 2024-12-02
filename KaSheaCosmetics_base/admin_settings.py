@@ -13,6 +13,7 @@ UNFOLD = {
         "light": lambda request: static("images/logo_black.svg"),  # light mode
         "dark": lambda request: static("images/logo_white.svg"),  # dark mode
     },
+    
     "COLORS": {
         "font": {
             "subtle-light": "107 114 128",

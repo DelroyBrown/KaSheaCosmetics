@@ -8,37 +8,41 @@
                 {% for product_cat in product_categories %}
                 <ul class="navbar-nav navbar-nav-cate" id="widget_product_category">
                     <li class="nav-item">
-                        <a href="#" title="{{ product_cat.category_name }}"
-                            class="text-reset position-relative d-block text-decoration-none text-body-emphasis-hover d-flex align-items-center text-uppercase fs-14px fw-semibold letter-spacing-5">
+                        <a href="{% url 'KaSheaCosmetics_products:product_by_category' product_cat.category_url %}"
+                           title="{{ product_cat.category_name }}"
+                           class="text-reset position-relative d-block text-decoration-none text-body-emphasis-hover d-flex align-items-center text-uppercase fs-14px fw-semibold letter-spacing-5">
                             <span class="text-hover-underline me-2">
                                 {{ product_cat.category_name }}
                             </span>
                             <span data-bs-toggle="collapse" data-bs-target="#cat_{{ product_cat.category_url }}"
-                                class="caret flex-grow-1 d-flex align-items-center justify-content-end collapsed">
+                                  class="caret flex-grow-1 d-flex align-items-center justify-content-end collapsed">
                                 <svg class="icon">
                                     <use xlink:href="#icon-plus"></use>
                                 </svg>
                             </span>
                         </a>
-
-                        <div id="cat_{{ product_cat.category_url }}" class="collapse show"
-                            data-bs-parent="#widget_product_category">
+                
+                        <div id="cat_{{ product_cat.category_url }}" class="collapse show" data-bs-parent="#widget_product_category">
                             <ul class="navbar-nav nav-submenu ps-8">
-                                {% for product in product_cat.products %}
+                                {% for product in products %}
+                                {% if product.category.id == product_cat.id %}
                                 <li class="nav-item">
                                     <a class="text-reset position-relative d-block text-decoration-none text-body-emphasis-hover d-flex align-items-center"
-                                        href="#">
+                                       href="#">
                                         <span class="text-hover-underline">
                                             {{ product.name }}
                                         </span>
                                     </a>
                                 </li>
+                                {% endif %}
                                 {% endfor %}
                             </ul>
                         </div>
                     </li>
                 </ul>
+                <br>
                 {% endfor %}
+                
 
 
                 <!-- HERE LIES THE MAIN CATEGORIES -->

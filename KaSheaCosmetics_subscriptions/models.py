@@ -11,5 +11,12 @@ class CustomerEmails(models.Model):
     email = models.EmailField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name = "Customer Email"
+        verbose_name_plural = "Customer Emails"
+
+
     def __str__(self):
         return f"Email from {self.name} regarding {self.product.name}"
+
+

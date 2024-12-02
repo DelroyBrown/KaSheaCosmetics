@@ -7,25 +7,28 @@ from .forms import ProductReviewForm
 from KaSheaCosmetics_subscriptions.models import CustomerEmails
 
 
-def product_list(request):
-    # Grab all the products, because that’s what we’re here for
-    products = Product.objects.all().order_by('-created_at')
-
-    # Fetch all the product categories while we’re at it
+def product_list(request, category_slug=None):
+    # Fetch all product categories
     product_categories = ProductCategory.objects.all()
 
-    # For each category, find all the products that belong in that category
-    for category in product_categories:
-        # Link up the products to their respective category, like a matchmaking service for items
-        category.products = Product.objects.filter(category=category)
+    # Check if a category slug is provided for filtering
+    if category_slug:
+        # Get the category matching the slug or return 404
+        category = get_object_or_404(ProductCategory, category_url=category_slug)
+        # Filter products based on the selected category
+        products = Product.objects.filter(category=category).order_by("-created_at")
+    else:
+        # If no category is selected, display all products
+        products = Product.objects.all().order_by("-created_at")
 
-    # Finally, we’re throwing all this data into the template and calling it a day
+    # Render the template with the products and categories
     return render(
         request,
         "products/products_list.html",
         {
-            "products": products,  # Passing the whole product gang
-            "product_categories": product_categories,  # And their lovely categories
+            "products": products,  # Filtered or all products
+            "product_categories": product_categories,  # List of categories
+            "current_category": category_slug,  # To highlight the selected category
         },
     )
 
