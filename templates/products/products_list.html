@@ -77,7 +77,7 @@
                     <div class="row gy-11">
                         {% for product in products %}
                         <!-- QUICK VIEW MODAL -->
-                       {% include 'products/includes/quick-view-modal.html' %}                       
+                        {% include 'products/includes/quick-view-modal.html' %}
                         <div class="col-12">
                             <div class="card flex-md-row card-product list bg-transparent border-0"
                                 data-animate="fadeInUp">
@@ -91,25 +91,26 @@
                                     </a>
                                     <div class="position-absolute product-flash z-index-2 ">
                                         <!-- <span class="badge badge-product-flash on-sale bg-primary">-25%</span> -->
-                                        </div>
+                                    </div>
                                 </figure>
                                 <div class="card-body flex-md-grow-1 p-0 pt-md-9">
                                     <span
                                         class="d-flex align-items-center price text-body-emphasis fw-bold mb-3 fs-18px">
-                                        
+
                                         <ins class="text-decoration-none">
                                             £{{ product.price}}
                                         </ins>
                                     </span>
                                     <h4
-                                        class="product-title card-title text-primary-hover text-body-emphasis fs-4 fw-semibold mb-5">
+                                        class="product-title card-title fs-4 fw-semibold mb-5">
                                         <a class="text-decoration-none text-reset"
                                             href="{% url 'KaSheaCosmetics_products:product_detail' product.id %}">
-                                            {{ product.name }} / 
+                                            {{ product.name }}
+
+                                        </a><br>
+                                        <a href="text-primary-hover">
                                             <em style="font-weight: 200;">
-                                      
-                                                    {{ product.category }}
-                                            
+                                                {{ product.category }}
                                             </em>
                                         </a>
                                     </h4>
@@ -189,11 +190,11 @@
                                             </svg>
                                         </a>
                                         <a class="text-body-emphasis bg-body bg-dark-hover text-light-hover rounded-circle square product-action quick-view"
-                                            href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Quick View"
-                                            data-product-name="{{ product.name }}" data-product-price="{{ product.price }}"
+                                            href="#" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            data-bs-title="Quick View" data-product-name="{{ product.name }}"
+                                            data-product-price="{{ product.price }}"
                                             data-product-description="{{ product.description }}"
-                                            data-product-image="{{ product.image_1.url }}"
-                                            >
+                                            data-product-image="{{ product.image_1.url }}">
                                             <span data-bs-toggle="modal" data-bs-target="#quickViewModal"
                                                 class="d-flex align-items-center justify-content-center">
                                                 <svg class="icon icon-eye-light">
@@ -262,7 +263,7 @@
     {% include 'commons/sign-up-modal.html' %}
     {% include 'commons/mobile-nav.html' %}
 
-</div>
+    </div>
 
 
     <div class="position-fixed z-index-10 bottom-0 end-0 p-10">
@@ -271,24 +272,24 @@
             title="Back To Top" style="--square-size: 48px"><i class="fa-solid fa-arrow-up"></i></a>
     </div>
 
-<script type="text/javascript">
-    document.querySelectorAll('.quick-view').forEach(button => {
-        button.addEventListener('click', function () {
-            // Get product details from data attributes
-            const productName = this.getAttribute('data-product-name');
-            const productPrice = this.getAttribute('data-product-price');
-            const productDescription = this.getAttribute('data-product-description');
-            const productImage = this.getAttribute('data-product-image');
+    <script type="text/javascript">
+        document.querySelectorAll('.quick-view').forEach(button => {
+            button.addEventListener('click', function () {
+                // Get product details from data attributes
+                const productName = this.getAttribute('data-product-name');
+                const productPrice = this.getAttribute('data-product-price');
+                const productDescription = this.getAttribute('data-product-description');
+                const productImage = this.getAttribute('data-product-image');
 
-            // Update modal content
-            document.querySelector('#quickViewModal h1 a').textContent = productName;
-            document.querySelector('#quickViewModal .fs-18px').textContent = productPrice;
-            document.querySelector('#quickViewModal .fs-15px').textContent = productDescription;
-            document.querySelector('#quickViewModal img.lazy-image').src = productImage;
+                // Update modal content
+                document.querySelector('#quickViewModal h1 a').textContent = productName;
+                document.querySelector('#quickViewModal .fs-18px').textContent = productPrice;
+                document.querySelector('#quickViewModal .fs-15px').textContent = productDescription;
+                document.querySelector('#quickViewModal img.lazy-image').src = productImage;
 
+            });
         });
-    });
 
-</script>
+    </script>
 
-{% endblock %}
+    {% endblock %}

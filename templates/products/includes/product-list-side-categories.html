@@ -28,7 +28,7 @@
                                 {% if product.category.id == product_cat.id %}
                                 <li class="nav-item">
                                     <a class="text-reset position-relative d-block text-decoration-none text-body-emphasis-hover d-flex align-items-center"
-                                       href="#">
+                                       href="{% url 'KaSheaCosmetics_products:product_detail' product.id %}">
                                         <span class="text-hover-underline">
                                             {{ product.name }}
                                         </span>
