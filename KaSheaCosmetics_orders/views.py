@@ -1,9 +1,13 @@
-# KaSheaCosmetics_orders\views.py
+# KaSheaCosmetics_orders/views.py
 import stripe
 import logging
 from django.conf import settings
+from django.urls import reverse
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+
 from .models import Order, OrderItem
 from KaSheaCosmetics_products.models import Product, ProductSize
 
@@ -66,7 +70,7 @@ def stripe_webhook(request):
                 status="Paid",
             )
 
-            # Retrieve line items
+            # Retrieve line items from Stripe and metadata
             line_items = stripe.checkout.Session.list_line_items(session_id)
             product_ids = session.get("metadata", {}).get("product_ids", "").split(",")
             size_ids = session.get("metadata", {}).get("size_ids", "").split(",")
@@ -94,6 +98,47 @@ def stripe_webhook(request):
                     logger.error(f"Product with ID {product_id} does not exist.")
                 except ProductSize.DoesNotExist:
                     logger.warning(f"Size with ID {size_id} does not exist.")
+
+            # Gather order item details for context
+            order_items = OrderItem.objects.filter(order=order)
+
+            # Compute the admin URL for the created order
+            relative_admin_url = reverse(
+                "admin:KaSheaCosmetics_orders_order_change", args=[order.id]
+            )
+            admin_change_url = request.build_absolute_uri(
+                relative_admin_url
+            )  # Optionally, to get a full URL including domain:
+            # admin_change_url = request.build_absolute_uri(admin_change_url)
+
+            # Render HTML email content from template
+            html_message = render_to_string(
+                "orders/email/new_order_email.html",
+                {
+                    "order": order,
+                    "order_items": order_items,
+                    "admin_change_url": admin_change_url,
+                },
+            )
+
+            # Prepare and send the email
+            subject = f"New Order #{order.id} Received"
+            recipient_list = ["delroybrown.db@gmail.com"]  # Store owner email
+
+            try:
+                send_mail(
+                    subject,
+                    "",  # Plain text version can be left empty or use a fallback text.
+                    settings.EMAIL_HOST_USER,
+                    recipient_list,
+                    fail_silently=False,
+                    html_message=html_message,
+                )
+                logger.info(f"Order confirmation email sent for order {order.id}")
+            except Exception as email_error:
+                logger.error(
+                    f"Failed to send email for order {order.id}: {email_error}"
+                )
 
         except Exception as e:
             logger.error(f"Error creating order or order items: {e}")

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>New Order Received</title>
+</head>
+<body>
+  <p>Hi, Karissa!</p>
+  <p>You've received a new order.</p>
+  <p>
+    <strong>Order ID:</strong> {{ order.id }}<br>
+    <strong>Customer:</strong> {{ order.customer_name }}<br>
+    <strong>Email:</strong> {{ order.email }}<br>
+    <strong>Amount:</strong> £{{ order.amount }}<br>
+    <strong>Shipping Address:</strong> {{ order.shipping_address }}, {{ order.shipping_city }}, {{ order.shipping_postcode }}, {{ order.shipping_country }}
+  </p>
+  <p><strong>Ordered Items:</strong></p>
+  <ul>
+    {% for item in order_items %}
+      <li>
+        {{ item.product.name }}{% if item.size %} (Size: {{ item.size.size_name }}){% endif %} x {{ item.quantity }}
+      </li>
+    {% endfor %}
+  </ul>
+  <p><a href="{{ admin_change_url }}">Check the admin panel for more details.</a></p>
+</body>
+</html>
