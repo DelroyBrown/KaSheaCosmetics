@@ -146,7 +146,7 @@ def stripe_webhook(request):
             )
 
             # Send email to customer
-            subject_customer = f"Your Receipt for Order #{order.id}"
+            subject_customer = f"Your Ka'Shea Cosmetics Receipt"
             recipient_list_customer = [order.email]
             try:
                 send_mail(

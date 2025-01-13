@@ -1,7 +1,30 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
 {% block content %}
-<h1>Checkout success page.</h1>
+  <h1>Thank you for your order!</h1>
+
+  {% if error %}
+    <p>{{ error }}</p>
+  {% else %}
+    <h2>Order Receipt</h2>
+    <p><strong>Order ID:</strong> {{ order.id }}</p>
+    <p><strong>Customer:</strong> {{ order.customer_name }}</p>
+    <p><strong>Email:</strong> {{ order.email }}</p>
+    <p><strong>Amount:</strong> £{{ order.amount }}</p>
+    <p><strong>Shipping Address:</strong><br>
+      {{ order.shipping_address }}<br>
+      {{ order.shipping_city }}, {{ order.shipping_postcode }}<br>
+      {{ order.shipping_country }}
+    </p>
+    <h3>Items:</h3>
+    <ul>
+      {% for item in order_items %}
+        <li>
+          {{ item.product.name }}{% if item.size %} (Size: {{ item.size.size_name }}){% endif %} x {{ item.quantity }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  <a href="/">Home</a>
 {% endblock %}
