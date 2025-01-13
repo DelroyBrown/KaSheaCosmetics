@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Your Order Receipt</title>
+</head>
+
+<body>
+    <p>Hi {{ order.customer_name }},</p>
+    <p>Thank you for your purchase! Here are the details of your order:</p>
+
+    <p>
+        <strong>Order ID:</strong> {{ order.id }}<br>
+        <strong>Amount:</strong> £{{ order.amount }}<br>
+        <strong>Order Date:</strong> {{ order.created_at }}<br>
+    </p>
+
+    <p><strong>Shipping Address:</strong><br>
+        {{ order.shipping_address }}<br>
+        {{ order.shipping_city }}, {{ order.shipping_postcode }}<br>
+        {{ order.shipping_country }}
+    </p>
+
+    <p><strong>Items in your order:</strong></p>
+    <ul>
+        {% for item in order_items %}
+        <li>
+            {{ item.product.name }}{% if item.size %} (Size: {{ item.size.size_name }}){% endif %} x {{ item.quantity }}
+        </li>
+        {% endfor %}
+    </ul>
+
+    <p>If you have any questions, please contact us.</p>
+    <p>Thank you for shopping with us!</p>
+</body>
+
+</html>
