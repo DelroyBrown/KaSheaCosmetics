@@ -15,12 +15,14 @@
                 <p class="text-primary font-primary fs-60px lh-1 mb-4">You must try</p>
                 <h2 class="text-uppercase mb-0">daily skincare set</h2>
             </div>
+          
             <div class="row gy-15 mb-2">
+                {% for product in you_must_try_products|slice:":3" %}
                 <div class="col-lg-4 col-sm-6 col-12">
                     <div class="card card-product grid-3 bg-transparent border-0" data-animate="fadeInUp">
                         <figure class="card-img-top position-relative mb-5 overflow-hidden">
-                            <a href="./shop/product-details-v1.html" class="hover-zoom-in d-block" title="Enriched Duo">
-                                <img src="#" data-src="{% static 'images/home/Kashea_Awaken_Body Scrub.png' %}"
+                            <a href="{% url 'KaSheaCosmetics_products:product_detail' product.id %}" class="hover-zoom-in d-block" title="{{ product.name }}">
+                                <img src="#" data-src="{{ product.image_1.url }}"
                                     class="img-fluid lazy-image w-100" alt="Enriched Duo" width="450" height="600">
                             </a>
                             <div class="position-absolute d-flex z-index-2 product-actions  horizontal"><a
@@ -61,117 +63,20 @@
                             <h4
                                 class="product-title card-title text-primary-hover text-body-emphasis fs-18px fw-500 mb-3">
                                 <a class="text-decoration-none text-reset"
-                                    href="./shop/product-details-v1.html">Enriched Duo</a>
+                                    href="javascript:void()">
+                                    {{ product.name }}
+                                </a>
                             </h4>
                             <span
-                                class="d-flex align-items-center price text-body-emphasis fw-bold justify-content-center mb-0 fs-6">$29.00</span>
+                                class="d-flex align-items-center price text-body-emphasis fw-bold justify-content-center mb-0 fs-6">
+                                £{{ product.price }}
+                            </span>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-sm-6 col-12">
-                    <div class="card card-product grid-3 bg-transparent border-0" data-animate="fadeInUp">
-                        <figure class="card-img-top position-relative mb-5 overflow-hidden">
-                            <a href="./shop/product-details-v1.html" class="hover-zoom-in d-block" title="Enriched Duo">
-                                <img src="#" data-src="{% static 'images/home/Kashea_Awaken_Body Scrub.png' %}"
-                                    class="img-fluid lazy-image w-100" alt="Enriched Duo" width="450" height="600">
-                            </a>
-                            <div class="position-absolute d-flex z-index-2 product-actions  horizontal"><a
-                                    class="text-body-emphasis bg-body bg-dark-hover text-light-hover rounded-circle square product-action shadow-sm add_to_cart"
-                                    href="#" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="Add To Cart">
-                                    <svg class="icon icon-shopping-bag-open-light">
-                                        <use xlink:href="#icon-shopping-bag-open-light"></use>
-                                    </svg>
-                                </a><a
-                                    class="text-body-emphasis bg-body bg-dark-hover text-light-hover rounded-circle square product-action shadow-sm quick-view"
-                                    href="#" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="Quick View">
-                                    <span data-bs-toggle="modal" data-bs-target="#quickViewModal"
-                                        class="d-flex align-items-center justify-content-center">
-                                        <svg class="icon icon-eye-light">
-                                            <use xlink:href="#icon-eye-light"></use>
-                                        </svg>
-                                    </span>
-                                </a>
-                                <a class="text-body-emphasis bg-body bg-dark-hover text-light-hover rounded-circle square product-action shadow-sm wishlist"
-                                    href="#" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="Add To Wishlist">
-                                    <svg class="icon icon-star-light">
-                                        <use xlink:href="#icon-star-light"></use>
-                                    </svg>
-                                </a>
-                                <a class="text-body-emphasis bg-body bg-dark-hover text-light-hover rounded-circle square product-action shadow-sm compare"
-                                    href="./shop/compare.html" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="Compare">
-                                    <svg class="icon icon-arrows-left-right-light">
-                                        <use xlink:href="#icon-arrows-left-right-light"></use>
-                                    </svg>
-                                </a>
-                            </div>
-                        </figure>
-                        <div class="card-body text-center p-0">
-                            <h4
-                                class="product-title card-title text-primary-hover text-body-emphasis fs-18px fw-500 mb-3">
-                                <a class="text-decoration-none text-reset"
-                                    href="./shop/product-details-v1.html">Enriched Duo</a>
-                            </h4>
-                            <span
-                                class="d-flex align-items-center price text-body-emphasis fw-bold justify-content-center mb-0 fs-6">$29.00</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-sm-6 col-12">
-                    <div class="card card-product grid-3 bg-transparent border-0" data-animate="fadeInUp">
-                        <figure class="card-img-top position-relative mb-5 overflow-hidden">
-                            <a href="./shop/product-details-v1.html" class="hover-zoom-in d-block" title="Enriched Duo">
-                                <img src="#" data-src="{% static 'images/home/Kashea_Awaken_Body Scrub.png' %}"
-                                    class="img-fluid lazy-image w-100" alt="Enriched Duo" width="450" height="600">
-                            </a>
-                            <div class="position-absolute d-flex z-index-2 product-actions  horizontal"><a
-                                    class="text-body-emphasis bg-body bg-dark-hover text-light-hover rounded-circle square product-action shadow-sm add_to_cart"
-                                    href="#" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="Add To Cart">
-                                    <svg class="icon icon-shopping-bag-open-light">
-                                        <use xlink:href="#icon-shopping-bag-open-light"></use>
-                                    </svg>
-                                </a><a
-                                    class="text-body-emphasis bg-body bg-dark-hover text-light-hover rounded-circle square product-action shadow-sm quick-view"
-                                    href="#" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="Quick View">
-                                    <span data-bs-toggle="modal" data-bs-target="#quickViewModal"
-                                        class="d-flex align-items-center justify-content-center">
-                                        <svg class="icon icon-eye-light">
-                                            <use xlink:href="#icon-eye-light"></use>
-                                        </svg>
-                                    </span>
-                                </a>
-                                <a class="text-body-emphasis bg-body bg-dark-hover text-light-hover rounded-circle square product-action shadow-sm wishlist"
-                                    href="#" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="Add To Wishlist">
-                                    <svg class="icon icon-star-light">
-                                        <use xlink:href="#icon-star-light"></use>
-                                    </svg>
-                                </a>
-                                <a class="text-body-emphasis bg-body bg-dark-hover text-light-hover rounded-circle square product-action shadow-sm compare"
-                                    href="./shop/compare.html" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="Compare">
-                                    <svg class="icon icon-arrows-left-right-light">
-                                        <use xlink:href="#icon-arrows-left-right-light"></use>
-                                    </svg>
-                                </a>
-                            </div>
-                        </figure>
-                        <div class="card-body text-center p-0">
-                            <h4
-                                class="product-title card-title text-primary-hover text-body-emphasis fs-18px fw-500 mb-3">
-                                <a class="text-decoration-none text-reset"
-                                    href="./shop/product-details-v1.html">Enriched Duo</a>
-                            </h4>
-                            <span
-                                class="d-flex align-items-center price text-body-emphasis fw-bold justify-content-center mb-0 fs-6">$29.00</span>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
+
+        
 
 
             </div>

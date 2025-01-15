@@ -13,21 +13,22 @@
       <p class="fs-18px w-lg-60 w-xl-40 mx-md-16 mx-lg-auto mb-13">
         Thanks for your order {{ order.customer_name }}. Please give 3-5 days whilst we prepare your order.
       </p>
-      <p><strong>Order ID:</strong> {{ order.id }}</p>
-      <p><strong>Customer:</strong> {{ order.customer_name }}</p>
-      <p><strong>Email:</strong> {{ order.email }}</p>
-      <p><strong>Amount:</strong> £{{ order.amount }}</p>
-      <p><strong>Shipping Address:</strong><br>
-        {{ order.shipping_address }}<br>
-        {{ order.shipping_city }}, {{ order.shipping_postcode }}<br>
-        {{ order.shipping_country }}
+      <p>Your order number is <strong>#{{ order.id }}</strong>.<br>
+        Your order total came to <strong>£{{ order.amount }}</strong>.<br>
+        We've sent and email to the email address <strong>{{ order.email }}</strong>.<br>
+        We've got your delivery address down as:<br>
+        <strong>{{ order.shipping_address }}</strong><br>
+        <strong>{{ order.shipping_city }}</strong><br>
+        <strong>{{ order.shipping_postcode }}</strong><br>
+        <strong>{{ order.shipping_country }}</strong>
       </p>
 
-      {% for item in order_items %}
+      <h2>Your Items:</h2>
       <p>
-        {{ item.product.name }}{% if item.size %} (Size: {{ item.size.size_name }}){% endif %} x {{ item.quantity }}
+        {% for item in order_items %}
+        {{ item.product.name }}{% if item.size %} (Size: {{ item.size.size_name }}){% endif %} x {{ item.quantity }}<br>
+        {% endfor %}
       </p>
-      {% endfor %}
       {% endif %}
 
       <a href="/" title="Shop now" class="btn btn-link fw-semibold text-body-emphasis">

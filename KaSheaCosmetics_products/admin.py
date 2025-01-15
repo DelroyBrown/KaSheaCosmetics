@@ -23,7 +23,7 @@ class ProductIngredientInline(StackedInline):
 
 @admin.register(Product)
 class ProductAdmin(ModelAdmin):
-    list_display = ("name", "category", "price")
+    list_display = ("name", "category", "price", "you_must_try")
     search_fields = ("name",)
     # filter_horizontal = ("ingredients",)  # Keep the ingredients filter as horizontal
     exclude = (

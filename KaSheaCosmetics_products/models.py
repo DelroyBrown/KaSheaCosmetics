@@ -64,6 +64,7 @@ class DefaultShippingCost(models.Model):
 
 
 class Product(models.Model):
+    you_must_try = models.BooleanField(default=False)
     # Name of the product, this is required and can't be blank
     name = models.CharField(max_length=200, blank=False, null=False, default="")
     # Description of the product, also required and can't be blank
