@@ -1,0 +1,40 @@
+{% load static %}
+<section id="special_offer_save_on_sets_2" class="bg-section-2 ">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 px-0 bg-image bg-col-lg-half-screen-left lazy-bg"
+                data-bg-src="{% static 'images/home/homepage-bg-1.jpg' %}" data-animate="fadeInUp">
+                <div class="py-25 my-xl-21 my-lg-8"></div>
+            </div>
+            <div class="col-lg-6 py-lg-10 py-16 ps-lg-10 ps-xl-18 order-2" data-animate="fadeInUp">
+                <div class="text-left">
+                    <p class="fs-15px mb-6 ls-1 text-body-emphasis fw-semibold">SPECIAL OFFER <span
+                            class="badge bg-primary fs-15px py-3 px-4 ms-4">-20%</span></p>
+                    <h2 class="mb-6">Don't Miss The Sale!</h2>
+                    <p class="fs-18px w-md-70 w-lg-100 w-xl-75 mb-7 text-body">Made using clean, non-toxic
+                        ingredients, our products are designed for everyone.</p>
+                </div>
+                <div class="d-flex countdown ms-n4 ms-md-n7" data-countdown="true"
+                    data-countdown-end="Jan 27, 2025 18:24:25">
+                    <div class="countdown-item text-center px-md-7 px-4 fs-1">
+                        <span class="day fw-semibold text-primary font-primary"></span>
+                    </div>
+                    <div class="separate fw-semibold fs-1 text-primary">:</div>
+                    <div class="countdown-item text-center px-md-7 px-4 fs-1">
+                        <span class="hour fw-semibold text-primary font-primary"></span>
+                    </div>
+                    <div class="separate fw-semibold fs-1 text-primary">:</div>
+                    <div class="countdown-item text-center px-md-7 px-4 fs-1">
+                        <span class="minute fw-semibold text-primary font-primary"></span>
+                    </div>
+                    <div class="separate fw-semibold fs-1 text-primary">:</div>
+                    <div class="countdown-item text-center px-md-7 px-4 fs-1">
+                        <span class="second fw-semibold text-primary font-primary"></span>
+                    </div>
+                </div>
+                <a href="{% url 'KaSheaCosmetics_products:product_list' %}"
+                    class="mt-11 btn btn-dark btn-hover-text-light btn-hover-bg-primary btn-hover-border-primary shadow-sm">Everythings Half Price!</a>
+            </div>
+        </div>
+    </div>
+</section>
