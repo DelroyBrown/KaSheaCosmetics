@@ -36,36 +36,7 @@
             <div class="tool-bar mb-11 align-items-center justify-content-between d-lg-flex">
                 <div class="tool-bar-left mb-6 mb-lg-0 fs-18px">We found <span
                         class="text-body-emphasis fw-semibold">95</span> products available for you</div>
-                <div class="tool-bar-right align-items-center d-flex ">
-                    <ul class="list-unstyled d-flex align-items-center list-inline me-lg-7 me-0 mb-0 ">
-                        <li class="list-inline-item me-7">
-                            <a class="fs-32px text-body-emphasis-hover  text-muted" href="../shop/shop-layout-v2.html">
-                                <svg class="icon icon-squares-four">
-                                    <use xlink:href="#icon-squares-four"></use>
-                                </svg>
-                            </a>
-                        </li>
-                        <li class="list-inline-item me-0">
-                            <a class="fs-32px text-body-emphasis-hovertext-body-emphasis" href="#">
-                                <svg class="icon icon-list">
-                                    <use xlink:href="#icon-list"></use>
-                                </svg>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="list-unstyled d-flex align-items-center list-inline mb-0 ms-auto">
-                        <li class="list-inline-item me-0">
-                            <select class="form-select" name="orderby">
-                                <option selected="selected">Default sorting</option>
-                                <option value="popularity">Sort by popularity</option>
-                                <option value="rating">Sort by average rating</option>
-                                <option value="date">Sort by latest</option>
-                                <option value="price">Sort by price: low to high</option>
-                                <option value="price-desc">Sort by price: high to low</option>
-                            </select>
-                        </li>
-                    </ul>
-                </div>
+           
             </div>
         </section>
         <!-- THIS SECTION CONTAINS THE PAGE HEADER AND THE "Default Sorting" OPTIONS -->
@@ -115,63 +86,10 @@
                                         </a>
                                     </h4>
                                     <div class="d-flex align-items-center fs-12px mb-5">
-                                        <div class="rating">
-                                            <div class="empty-stars">
-                                                <span class="star">
-                                                    <svg class="icon star-o">
-                                                        <use xlink:href="#star-o"></use>
-                                                    </svg>
-                                                </span>
-                                                <span class="star">
-                                                    <svg class="icon star-o">
-                                                        <use xlink:href="#star-o"></use>
-                                                    </svg>
-                                                </span>
-                                                <span class="star">
-                                                    <svg class="icon star-o">
-                                                        <use xlink:href="#star-o"></use>
-                                                    </svg>
-                                                </span>
-                                                <span class="star">
-                                                    <svg class="icon star-o">
-                                                        <use xlink:href="#star-o"></use>
-                                                    </svg>
-                                                </span>
-                                                <span class="star">
-                                                    <svg class="icon star-o">
-                                                        <use xlink:href="#star-o"></use>
-                                                    </svg>
-                                                </span>
-                                            </div>
-                                            <div class="filled-stars" style="width: 80%">
-                                                <span class="star">
-                                                    <svg class="icon star text-primary">
-                                                        <use xlink:href="#star"></use>
-                                                    </svg>
-                                                </span>
-                                                <span class="star">
-                                                    <svg class="icon star text-primary">
-                                                        <use xlink:href="#star"></use>
-                                                    </svg>
-                                                </span>
-                                                <span class="star">
-                                                    <svg class="icon star text-primary">
-                                                        <use xlink:href="#star"></use>
-                                                    </svg>
-                                                </span>
-                                                <span class="star">
-                                                    <svg class="icon star text-primary">
-                                                        <use xlink:href="#star"></use>
-                                                    </svg>
-                                                </span>
-                                                <span class="star">
-                                                    <svg class="icon star text-primary">
-                                                        <use xlink:href="#star"></use>
-                                                    </svg>
-                                                </span>
-                                            </div>
-                                        </div><span class="reviews ms-4 pt-3 fs-14px">
-                                            {{ product.get_review_count}}
+                                     
+                                        <span class="reviews ms-4 pt-3 fs-14px">
+                                            <!-- {{ product.get_review_count}} -->
+                                            {{ product.stock }} in stock.
                                         </span>
                                     </div>
                                     <p class="product-desc mb-10">
@@ -180,15 +98,9 @@
                                     <div class="d-flex flex-wrap horizontal">
                                         <a href="{% url 'KaSheaCosmetics_products:product_detail' product.id %}"
                                             class="btn btn-add-to-cart btn-dark btn-hover-bg-primary btn-hover-border-primary ">
-                                            More About {{ product.name }}
+                                            View {{ product.name }}
                                         </a>
-                                        <a class="text-body-emphasis bg-body bg-dark-hover text-light-hover rounded-circle square product-action wishlist"
-                                            href="#" data-bs-toggle="tooltip" data-bs-placement="top"
-                                            data-bs-title="Add To Wishlist">
-                                            <svg class="icon icon-star-light">
-                                                <use xlink:href="#icon-star-light"></use>
-                                            </svg>
-                                        </a>
+                               
                                         <a class="text-body-emphasis bg-body bg-dark-hover text-light-hover rounded-circle square product-action quick-view"
                                             href="#" data-bs-toggle="tooltip" data-bs-placement="top"
                                             data-bs-title="Quick View" data-product-name="{{ product.name }}"
@@ -202,13 +114,7 @@
                                                 </svg>
                                             </span>
                                         </a>
-                                        <a class="text-body-emphasis bg-body bg-dark-hover text-light-hover rounded-circle square product-action compare"
-                                            href="../shop/compare.html" data-bs-toggle="tooltip" data-bs-placement="top"
-                                            data-bs-title="Compare">
-                                            <svg class="icon icon-arrows-left-right-light">
-                                                <use xlink:href="#icon-arrows-left-right-light"></use>
-                                            </svg>
-                                        </a>
+                                    
                                     </div>
                                 </div>
                             </div>
