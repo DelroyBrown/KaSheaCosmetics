@@ -33,6 +33,11 @@ def product_list(request, category_slug=None):
     )
 
 
+def side_nav_categories(request):
+    categories = ProductCategory.objects.all()
+    return {"sidenav_product_categories": categories}
+
+
 def product_detail(request, product_id):
     # Grab the product by its ID, and 404 if it doesn’t exist (no product, no page)
     product = get_object_or_404(Product, id=product_id)

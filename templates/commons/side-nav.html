@@ -19,50 +19,25 @@
                 <li class="nav-item transition-all-xl-1 py-0 dropdown">
                     <a class="nav-link d-flex justify-content-between position-relative text-uppercase fw-semibold ls-1 fs-15px dropdown-toggle"
                         href="#" data-bs-toggle="dropdown" id="menu-item-pages-canvas" aria-haspopup="true"
-                        aria-expanded="false">Shop</a>
+                        aria-expanded="false">
+                        Shop
+                    </a>
                     <ul class="dropdown-menu py-6" aria-labelledby="menu-item-pages-canvas">
+                        <!-- <span class="border-hover-target">
+                             
+                        </span> -->
+                        {% for side_nav_cat in sidenav_product_categories %}
                         <li class="dropend" aria-haspopup="true" aria-expanded="false">
                             <a class="dropdown-item pe-6 dropdown-toggle d-flex justify-content-between border-hover"
                                 href="#" data-bs-toggle="dropdown" id="menu-item-blog-canvas">
                                 <span class="border-hover-target">
-                                    Bath Salts
+                                    {{ side_nav_cat.category_name }}
                                 </span>
                             </a>
-                            <ul class="dropdown-menu py-6" aria-labelledby="menu-item-blog-canvas"
-                                data-bs-popper="none">
-                                <li>
-                                    <a class="dropdown-item border-hover" href="./blog/grid.html">
-                                        <span class="border-hover-target">
-                                            Awaken
-                                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item border-hover" href="./blog/grid-sidebar.html">
-                                        <span class="border-hover-target">
-                                            Unwind
-                                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item border-hover" href="./blog/grid-sidebar.html">
-                                        <span class="border-hover-target">
-                                            Muscle Soothe
-                                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item border-hover" href="./blog/grid-sidebar.html">
-                                        <span class="border-hover-target">
-                                            Zen Night
-                                        </span>
-                                    </a>
-                                </li>
-
-                                <li class="dropdown-divider"></li>
-
-                            </ul>
+                       
                         </li>
+                        {% endfor %}
+
                         <li class="dropdown-divider"></li>
                         <li class="dropend" aria-haspopup="true" aria-expanded="false">
                             <a class="dropdown-item pe-6 dropdown-toggle d-flex justify-content-between border-hover"
@@ -147,8 +122,7 @@
         </div>
         <hr class="mb-0">
         <div class="offcanvas-footer bg-body-tertiary">
-            © 2023 Glowing. <br>
-            All rights reserved.
+            © 2025 Ka'Shea Cosmetics.
         </div>
     </div>
 </div>
