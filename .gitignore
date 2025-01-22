@@ -112,7 +112,7 @@ venv.bak/
 # mypy 
 .mypy_cache/ 
 
-media
+
 
 # Sublime Text # 
 *.tmlanguage.cache 
