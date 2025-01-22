@@ -1,0 +1,1 @@
+web: gunicorn KaSheaCosmetics_base.wsgi:application

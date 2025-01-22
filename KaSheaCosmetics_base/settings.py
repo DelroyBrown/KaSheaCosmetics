@@ -14,7 +14,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 DEBUG = os.getenv("DEBUG")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['kashea-cosmetics-8f8861f9a989.herokuapp.com/', 'localhost']
 
 # Import admin settings
 try:
@@ -79,19 +79,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "KaSheaCosmetics_base.wsgi.application"
 
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+if 'DATABASE_URL' in os.environ:
+    DATABASES = {
+        'default' : dj_database_url.parse(os.environ.get('DATABASE_URL'))
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 # DATABASES = {
 #     "default": dj_database_url.parse(
 #         "postgres://ud5dd4fujmal6d:pc64ecb2a0e8793971cec5dbb4050b821cc5c5a0e9ee78e5fa40aaedb2f9f3059@clhtb6lu92mj2.cluster-czz5s0kz4scl.eu-west-1.rds.amazonaws.com:5432/d6hd6qnpuvootm"
 #     )
-}
+# }
 
 
 AUTH_PASSWORD_VALIDATORS = [
