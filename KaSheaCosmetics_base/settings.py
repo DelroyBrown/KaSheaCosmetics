@@ -10,11 +10,16 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = os.getenv("SECRET_KEY", '')
+SECRET_KEY = os.getenv("SECRET_KEY", "")
 
-DEBUG = 'DEVLOPMENT' in os.environ
+# DEBUG = 'DEVLOPMENT' in os.environ
+DEBUG = True
 
-ALLOWED_HOSTS = ['kashea-cosmetics-8f8861f9a989.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "kashea-cosmetics-8f8861f9a989.herokuapp.com",
+    "localhost",
+]
 
 # Import admin settings
 try:
@@ -38,7 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'storages',
+    "storages",
     # My Apps
     "KaSheaCosmetics_base",
     "KaSheaCosmetics_home",
@@ -80,10 +85,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "KaSheaCosmetics_base.wsgi.application"
 
-if 'DATABASE_URL' in os.environ:
-    DATABASES = {
-        'default' : dj_database_url.parse(os.environ.get('DATABASE_URL'))
-    }
+if "DATABASE_URL" in os.environ:
+    DATABASES = {"default": dj_database_url.parse(os.environ.get("DATABASE_URL"))}
 else:
     DATABASES = {
         "default": {
@@ -121,7 +124,6 @@ if "USE_AWS" in os.environ:
     # Override static and media URLs in production
     STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/"
     MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/"
-
 
 
 AUTH_PASSWORD_VALIDATORS = [
