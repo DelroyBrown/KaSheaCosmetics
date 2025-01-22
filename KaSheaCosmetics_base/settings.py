@@ -1,6 +1,7 @@
 # KaSheaCosmetics_base\settings.py
 import os
 from pathlib import Path
+import dj_database_url
 from dotenv import load_dotenv
 
 
@@ -70,7 +71,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                'KaSheaCosmetics_products.views.side_nav_categories',
+                "KaSheaCosmetics_products.views.side_nav_categories",
             ],
         },
     },
@@ -84,6 +85,12 @@ DATABASES = {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
     }
+}
+
+# DATABASES = {
+#     "default": dj_database_url.parse(
+#         "postgres://ud5dd4fujmal6d:pc64ecb2a0e8793971cec5dbb4050b821cc5c5a0e9ee78e5fa40aaedb2f9f3059@clhtb6lu92mj2.cluster-czz5s0kz4scl.eu-west-1.rds.amazonaws.com:5432/d6hd6qnpuvootm"
+#     )
 }
 
 
@@ -137,5 +144,5 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
