@@ -14,7 +14,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", '')
 
 DEBUG = 'DEVLOPMENT' in os.environ
 
-ALLOWED_HOSTS = ['kashea-cosmetics-8f8861f9a989.herokuapp.com/', 'localhost']
+ALLOWED_HOSTS = ['kashea-cosmetics-8f8861f9a989.herokuapp.com', 'localhost']
 
 # Import admin settings
 try:
