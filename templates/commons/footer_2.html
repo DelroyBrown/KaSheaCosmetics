@@ -10,24 +10,20 @@
                 </p>
                 <p class="mb-0 lh-2"><strong class="text-body-emphasis">+391 (0)35 2568 4593</strong>
                     <br>
-                    hello@domain.com
+                    KaSheaCosmetics@outlook.com
                 </p>
             </div>
             <div class="col-lg col-md-4 col-12 mb-11 mb-lg-0">
                 <h3 class="fs-5 mb-6 ">Useful links</h3>
                 <ul class="list-unstyled mb-0 fw-medium ">
+                    {% for side_nav_cat in sidenav_product_categories %}
                     <li class="pt-3 mb-4">
-                        <a href="#" title="New Products" class="text-body">New Products</a>
+                        <a href="#" title="New Products" class="text-body">
+                            {{ side_nav_cat.category_name }}
+                            
+                        </a>
                     </li>
-                    <li class="pt-3 mb-4">
-                        <a href="#" title="Best Sellers" class="text-body">Best Sellers</a>
-                    </li>
-                    <li class="pt-3 mb-4">
-                        <a href="#" title="Bundle &amp; Save" class="text-body">Bundle &amp; Save</a>
-                    </li>
-                    <li class="pt-3 mb-4">
-                        <a href="#" title="Online Gift Card" class="text-body">Online Gift Card</a>
-                    </li>
+                    {% endfor %}
                 </ul>
             </div>
             <div class="col-lg col-md-4 col-12 mb-11 mb-lg-0">
@@ -51,7 +47,7 @@
                 </ul>
             </div>
             <div class="col-lg-5 col-12 mb-11 mb-lg-0">
-                <h3 class="mb-4 ">Good emails.</h3>
+                <h3 class="mb-4 ">Subscribe To Our Newsletter.</h3>
                 <p class="lh-2 ">Enter your email below to be the first to know about new collections and product
                     launches.</p>
                 <form class=" pt-8">

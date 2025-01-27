@@ -78,6 +78,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "KaSheaCosmetics_products.views.side_nav_categories",
+                "KaSheaCosmetics_home.CommonViews.views.top_banner_message",
             ],
         },
     },

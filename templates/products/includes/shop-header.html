@@ -3,7 +3,12 @@
 <header id="header" class="header header-sticky header-sticky-smart disable-transition-all z-index-5">
     <div class="topbar bg-primary">
         <div class="container-wide container">
-            <p class="mb-0 text-white text-center p-4 fs-6 fw-semibold">FREE SHIPPING ON ALL ORDERS OVER £50 OR SOMETHING</p>
+            <p class="mb-0 text-white text-center p-4 fs-6 fw-semibold">
+                {% for message in top_banner_message %}
+                {{ message.banner_description }}
+                {% endfor %}
+
+            </p>
         </div>
     </div>
     <div class="sticky-area">
@@ -22,13 +27,13 @@
                             class="nav-item transition-all-xl-1 py-11 me-xxl-12 me-xl-10 dropdown dropdown-hover dropdown-fullwidth">
                             <a class="nav-link d-flex justify-content-between position-relative py-0 px-0 text-uppercase fw-semibold ls-1 fs-14px"
                                 href="/" id="menu-item-home">Home</a>
-               
+
                         </li>
                         <li
                             class="nav-item transition-all-xl-1 py-11 me-xxl-12 me-xl-10 dropdown dropdown-hover dropdown-fullwidth position-static">
                             <a class="nav-link d-flex justify-content-between position-relative py-0 px-0 text-uppercase fw-semibold ls-1 fs-14px dropdown-toggle"
-                                href="../store.html" data-bs-toggle="dropdown" id="menu-item-shop" aria-haspopup="true"
-                                aria-expanded="false">Shop</a>
+                                href="javascript:void()" data-bs-toggle="dropdown" id="menu-item-shop"
+                                aria-haspopup="true" aria-expanded="false">Shop</a>
                             <div class="dropdown-menu mega-menu start-0 py-6  w-100" aria-labelledby="menu-item-shop">
                                 <div class="megamenu-shop container-wide py-8 px-12">
                                     <div class="row">
@@ -38,8 +43,7 @@
                                                 <li>
                                                     <a href="../shop/shop-layout-v1.html"
                                                         class="border-hover text-decoration-none py-3 d-block">
-                                                        <span
-                                                            class="border-hover-target">
+                                                        <span class="border-hover-target">
                                                             Sweet Stuff
                                                         </span>
                                                     </a>
@@ -47,8 +51,7 @@
                                                 <li>
                                                     <a href="../shop/shop-layout-v1.html"
                                                         class="border-hover text-decoration-none py-3 d-block">
-                                                        <span
-                                                            class="border-hover-target">
+                                                        <span class="border-hover-target">
                                                             Citrus Notes
                                                         </span>
                                                     </a>
@@ -56,8 +59,7 @@
                                                 <li>
                                                     <a href="../shop/shop-layout-v1.html"
                                                         class="border-hover text-decoration-none py-3 d-block">
-                                                        <span
-                                                            class="border-hover-target">
+                                                        <span class="border-hover-target">
                                                             Zen Butter
                                                         </span>
                                                     </a>
@@ -65,8 +67,7 @@
                                                 <li>
                                                     <a href="../shop/shop-layout-v1.html"
                                                         class="border-hover text-decoration-none py-3 d-block">
-                                                        <span
-                                                            class="border-hover-target">
+                                                        <span class="border-hover-target">
                                                             Naked
                                                         </span>
                                                     </a>
@@ -79,8 +80,7 @@
                                                 <li>
                                                     <a href="../shop/product-details-v1.html"
                                                         class="border-hover text-decoration-none py-3 d-block">
-                                                        <span
-                                                            class="border-hover-target">
+                                                        <span class="border-hover-target">
                                                             Awaken
                                                         </span>
                                                     </a>
@@ -88,8 +88,7 @@
                                                 <li>
                                                     <a href="../shop/product-details-v1.html"
                                                         class="border-hover text-decoration-none py-3 d-block">
-                                                        <span
-                                                            class="border-hover-target">
+                                                        <span class="border-hover-target">
                                                             Unwind
                                                         </span>
                                                     </a>
@@ -97,8 +96,7 @@
                                                 <li>
                                                     <a href="../shop/product-details-v1.html"
                                                         class="border-hover text-decoration-none py-3 d-block">
-                                                        <span
-                                                            class="border-hover-target">
+                                                        <span class="border-hover-target">
                                                             Zen Night
                                                         </span>
                                                     </a>
@@ -106,13 +104,12 @@
                                                 <li>
                                                     <a href="../shop/product-details-v1.html"
                                                         class="border-hover text-decoration-none py-3 d-block">
-                                                        <span
-                                                            class="border-hover-target">
+                                                        <span class="border-hover-target">
                                                             Naked
                                                         </span>
                                                     </a>
                                                 </li>
-                                              
+
                                             </ul>
                                         </div>
                                         <div class="col">
@@ -121,8 +118,7 @@
                                                 <li>
                                                     <a href="../shop/product-simple.html"
                                                         class="border-hover text-decoration-none py-3 d-block">
-                                                        <span
-                                                            class="border-hover-target">
+                                                        <span class="border-hover-target">
                                                             Awaken
                                                         </span>
                                                     </a>
@@ -130,8 +126,7 @@
                                                 <li>
                                                     <a href="../shop/product-simple.html"
                                                         class="border-hover text-decoration-none py-3 d-block">
-                                                        <span
-                                                            class="border-hover-target">
+                                                        <span class="border-hover-target">
                                                             Unwind
                                                         </span>
                                                     </a>
@@ -139,8 +134,7 @@
                                                 <li>
                                                     <a href="../shop/product-simple.html"
                                                         class="border-hover text-decoration-none py-3 d-block">
-                                                        <span
-                                                            class="border-hover-target">
+                                                        <span class="border-hover-target">
                                                             Muscle Soothe
                                                         </span>
                                                     </a>
@@ -148,13 +142,12 @@
                                                 <li>
                                                     <a href="../shop/product-simple.html"
                                                         class="border-hover text-decoration-none py-3 d-block">
-                                                        <span
-                                                            class="border-hover-target">
+                                                        <span class="border-hover-target">
                                                             Zen Night
                                                         </span>
                                                     </a>
                                                 </li>
-                                     
+
                                             </ul>
                                         </div>
                                         <div class="col">
@@ -163,8 +156,7 @@
                                                 <li>
                                                     <a href="../shop/shopping-cart.html"
                                                         class="border-hover text-decoration-none py-3 d-block">
-                                                        <span
-                                                            class="border-hover-target">
+                                                        <span class="border-hover-target">
                                                             Awaken
                                                         </span>
                                                     </a>
@@ -172,8 +164,7 @@
                                                 <li>
                                                     <a href="../shop/shopping-cart.html"
                                                         class="border-hover text-decoration-none py-3 d-block">
-                                                        <span
-                                                            class="border-hover-target">
+                                                        <span class="border-hover-target">
                                                             Unwind
                                                         </span>
                                                     </a>
@@ -181,8 +172,7 @@
                                                 <li>
                                                     <a href="../shop/shopping-cart.html"
                                                         class="border-hover text-decoration-none py-3 d-block">
-                                                        <span
-                                                            class="border-hover-target">
+                                                        <span class="border-hover-target">
                                                             Zen Night
                                                         </span>
                                                     </a>
@@ -190,8 +180,7 @@
                                                 <li>
                                                     <a href="../shop/shopping-cart.html"
                                                         class="border-hover text-decoration-none py-3 d-block">
-                                                        <span
-                                                            class="border-hover-target">
+                                                        <span class="border-hover-target">
                                                             Naked
                                                         </span>
                                                     </a>
@@ -221,10 +210,10 @@
                                 </div>
                             </div>
                         </li>
-                    
+
                     </ul>
                 </div>
-                <a href="../" class="navbar-brand px-8 py-4 mx-auto">
+                <a href="/" class="navbar-brand px-8 py-4 mx-auto">
                     <img class="light-mode-img" src="{% static 'images/logo_black.svg' %}" width="200"
                         alt="Ka'Shea Cosmetics">
 
@@ -247,7 +236,7 @@
                         </a>
                     </div>
 
-                    <div class="px-5 d-none d-xl-inline-block">
+                    <!-- <div class="px-5 d-none d-xl-inline-block">
                         <a class="position-relative lh-1 color-inherit text-decoration-none" href="#"
                             data-bs-toggle="offcanvas" data-bs-target="#shoppingCart" aria-controls="shoppingCart"
                             aria-expanded="false">
@@ -258,9 +247,9 @@
                                 class="badge bg-dark text-white position-absolute top-0 start-100 translate-middle mt-4 rounded-circle fs-13px p-0 square"
                                 style="--square-size: 18px">3</span>
                         </a>
-                    </div>
+                    </div> -->
                     <div class="color-modes position-relative ps-5">
-                   
+
                         <ul class="dropdown-menu dropdown-menu-end fs-14px" data-bs-popper="static">
                             <li>
                                 <button type="button" class="dropdown-item d-flex align-items-center active"

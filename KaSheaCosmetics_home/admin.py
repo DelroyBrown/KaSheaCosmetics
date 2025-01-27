@@ -1,4 +1,5 @@
 from django.contrib import admin
-from .models import specialOffer
+from KaSheaCosmetics_home.CommonModels.models import specialOffer, TopBannerMessage
 
 admin.site.register(specialOffer)
+admin.site.register(TopBannerMessage)
