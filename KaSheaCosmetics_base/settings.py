@@ -96,12 +96,6 @@ else:
         }
     }
 
-# DATABASES = {
-#     "default": dj_database_url.parse(
-#         "postgres://ud5dd4fujmal6d:pc64ecb2a0e8793971cec5dbb4050b821cc5c5a0e9ee78e5fa40aaedb2f9f3059@clhtb6lu92mj2.cluster-czz5s0kz4scl.eu-west-1.rds.amazonaws.com:5432/d6hd6qnpuvootm"
-#     )
-# }
-
 
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [
