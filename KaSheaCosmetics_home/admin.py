@@ -12,3 +12,4 @@ class TopBannerMessageAdmin(ModelAdmin):
 @admin.register(specialOffer)
 class SpecialOfferAdmin(ModelAdmin):
     list_display = ("offer_name", "created_at")
+    readonly_fields = ("created_at",)
