@@ -63,7 +63,31 @@ class ProductReviewAdmin(ModelAdmin):
     ]
 
 
-admin.site.register(Ingredients)
-admin.site.register(ProductCategory)
-admin.site.register(ShippingOption)
-admin.site.register(ProductSize)
+@admin.register(ProductCategory)
+class ProductCategoryAdmin(ModelAdmin):
+    list_display = ("category_name",)
+    search_fields = ("category_name",)
+
+
+@admin.register(ShippingOption)
+class ShippingOptionAdmin(ModelAdmin):
+    list_display = ("name",)
+    search_fields = ("cost",)
+
+
+@admin.register(ProductSize)
+class ProductSizeAdmin(ModelAdmin):
+    list_display = ("size_name",)
+    search_fields = ("added_percentage",)
+
+
+@admin.register(Ingredients)
+class IngredientsAdmin(ModelAdmin):
+    list_display = ("ingredient_name",)
+    search_fields = ("ingredient_name",)
+
+
+# admin.site.register(Ingredients)
+# admin.site.register(ProductCategory)
+# admin.site.register(ShippingOption)
+# admin.site.register(ProductSize)
