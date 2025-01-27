@@ -103,6 +103,13 @@ else:
 # }
 
 
+STATIC_URL = "/static/"
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 if "USE_AWS" in os.environ:
     # AWS settings (these look good from what you shared)
     AWS_S3_OBJECT_PARAMETERS = {
@@ -125,12 +132,6 @@ if "USE_AWS" in os.environ:
     # Updated static and media URLs
     STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/"
     MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/"
-else:
-    # Local development settings
-    STATIC_URL = "/static/"
-    STATIC_ROOT = os.path.join(BASE_DIR, "static")
-    MEDIA_URL = "/media/"
-    MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
 AUTH_PASSWORD_VALIDATORS = [
