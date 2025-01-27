@@ -4,6 +4,7 @@ from django.db import models
 class TopBannerMessage(models.Model):
     banner_name = models.CharField(max_length=50, blank=False, null=False, default="")
     banner_description = models.TextField(max_length=500, blank=False, null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.banner_name

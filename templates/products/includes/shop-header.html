@@ -4,7 +4,7 @@
     <div class="topbar bg-primary">
         <div class="container-wide container">
             <p class="mb-0 text-white text-center p-4 fs-6 fw-semibold">
-                {% for message in top_banner_message %}
+                {% for message in top_banner_message|slice:":1" %}
                 {{ message.banner_description }}
                 {% endfor %}
 

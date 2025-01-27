@@ -4,5 +4,5 @@ from KaSheaCosmetics_home.CommonModels.models import TopBannerMessage
 
 
 def top_banner_message(request):
-    top_banner_message = TopBannerMessage.objects.all()
+    top_banner_message = TopBannerMessage.objects.all().order_by("-created_at")
     return {"top_banner_message": top_banner_message}
