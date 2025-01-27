@@ -1,3 +1,4 @@
+from django.utils.timezone import now
 from django.db import models
 
 
@@ -21,6 +22,7 @@ class specialOffer(models.Model):
         null=False,
         help_text="This will be your main image.",
     )
+    created_at = models.DateTimeField(default=now)
 
     def __str__(self):
         return self.offer_name
