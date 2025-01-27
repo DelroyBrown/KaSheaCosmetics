@@ -11,3 +11,8 @@ class MediaStorage(S3Boto3Storage):
     location = settings.MEDIAFILES_LOCATION
     default_acl = "public-read"
     file_overwrite = False
+
+    def _save(self, name, content):
+        print(f"DEBUG: Uploading file to S3 with path: {self.location}/{name}")
+        return super()._save(name, content)
+
